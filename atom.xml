@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://prophetjeff.com/"/>
-  <updated>2017-11-05T02:42:09.789Z</updated>
+  <updated>2017-11-07T07:08:52.249Z</updated>
   <id>http://prophetjeff.com/</id>
   
   <author>
@@ -17,55 +17,24 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>test</title>
-    <link href="http://prophetjeff.com/2017/11/05/test/"/>
-    <id>http://prophetjeff.com/2017/11/05/test/</id>
-    <published>2017-11-05T02:38:00.000Z</published>
-    <updated>2017-11-05T02:42:09.789Z</updated>
+    <title>一首令人窒息诗歌</title>
+    <link href="http://prophetjeff.com/2017/11/07/poetry/"/>
+    <id>http://prophetjeff.com/2017/11/07/poetry/</id>
+    <published>2017-11-07T03:07:11.000Z</published>
+    <updated>2017-11-07T07:08:52.249Z</updated>
     
-    <content type="html"><![CDATA[<p>#HELLO WORLD!</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;#HELLO WORLD!&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-      <category term="test" scheme="http://prophetjeff.com/categories/test/"/>
-    
-    
-      <category term="Mysql" scheme="http://prophetjeff.com/tags/Mysql/"/>
-    
-      <category term="Python" scheme="http://prophetjeff.com/tags/Python/"/>
-    
-      <category term="Linux" scheme="http://prophetjeff.com/tags/Linux/"/>
-    
-      <category term="ML" scheme="http://prophetjeff.com/tags/ML/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://prophetjeff.com/2017/10/23/hello-world/"/>
-    <id>http://prophetjeff.com/2017/10/23/hello-world/</id>
-    <published>2017-10-23T13:06:39.904Z</published>
-    <updated>2017-10-23T13:06:39.904Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p><img src="http://oytj0divs.bkt.clouddn.com/59954a7a7af67.jpg" alt="poetry"><br><blockquote class="blockquote-center"><h1 id="短歌行"><a href="#短歌行" class="headerlink" title="短歌行"></a>短歌行</h1><h4 id="曹操"><a href="#曹操" class="headerlink" title="曹操"></a>曹操</h4><p>对酒当歌，人生几何！譬如朝露，去日苦多。<br><a id="more"></a><br>慨当以慷，忧思难忘。何以解忧？唯有杜康。</p><p>青青子衿，悠悠我心。但为君故，沉吟至今。</p><p>呦呦鹿鸣，食野之苹。我有嘉宾，鼓瑟吹笙。</p><p>明明如月，何时可掇？忧从中来，不可断绝。</p><p>越陌度阡，枉用相存。契阔谈讌，心念旧恩。</p><p>月明星稀，乌鹊南飞。绕树三匝，何枝可依？</p><p>山不厌高，海不厌深。周公吐哺，天下归心。</p></blockquote></p><hr><p>　　《短歌行》是汉乐府的旧题，属于《相和歌辞·平调曲》。这就是说它本来是一个乐曲的名称。最初的古辞已经失传。乐府里收集的同名有24首，最早的是曹操的这首。这种乐曲怎么唱法，现在当然是不知道了。但乐府《相和歌·平调曲》中除了《短歌行》还有《长歌行》，唐代吴兢《乐府古题要解》引证古诗“长歌正激烈”，魏文帝曹丕《燕歌行》“短歌微吟不能长”和晋代傅玄《艳歌行》“咄来长歌续短歌”等句，认为“长歌”、“短歌”是指“歌声有长短”。现在也就只能根据这一点点材料来理解《短歌行》的音乐特点。《短歌行》这个乐曲，原来当然也有相应的歌辞，就是“乐府古辞”，但这古辞已经失传了。现在所能见到的最早的《短歌行》就是曹操所作的拟乐府《短歌行》。所谓“拟乐府”就是运用乐府旧曲来补作新词，曹操传世的《短歌行》共有两首，这里要介绍的是其中的第一首。</p><p>　　这首《短歌行》的主题非常明确，就是作者希望有大量人才来为自己所用。曹操在其政治活动中，为了扩大他在庶族地主中的统治基础，打击反动的世袭豪强势力，曾大力强调“唯才是举”，为此而先后发布了“求贤令”、“举士令”、“求逸才令”等；而《短歌行》实际上就是一曲“求贤歌”、又正因为运用了诗歌的形式，含有丰富的抒情成分，所以就能起到独特的感染作用，有力地宣传了他所坚持的主张，配合了他所颁发的政令。正像曹操的其它诗作如《蒿里行》、《对酒》、《苦寒行》等一样，是政治性很强的诗作，主要是为曹操当时所实行的政治路线和政治策略服务的；然而它那政治内容和意义却完全熔铸在浓郁的抒情意境之中，全诗充分发挥了诗歌创作的特长，准确而巧妙地运用了比兴手法，来达到寓理于情，以情感人的目的。在曹操的时代，他就已经能够按照抒情诗的特殊规律来取得预期的社会效果，这一创作经验显然是值得借鉴的。同时因为曹操在当时强调“唯才是举”有一定的进步意义，所以他对“求贤”这一主题所作的高度艺术化的表现，也应得到历史的肯定。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
+      &lt;p&gt;&lt;img src=&quot;http://oytj0divs.bkt.clouddn.com/59954a7a7af67.jpg&quot; alt=&quot;poetry&quot;&gt;&lt;br&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;h1 id=&quot;短歌行&quot;&gt;&lt;a href=&quot;#短歌行&quot; class=&quot;headerlink&quot; title=&quot;短歌行&quot;&gt;&lt;/a&gt;短歌行&lt;/h1&gt;&lt;h4 id=&quot;曹操&quot;&gt;&lt;a href=&quot;#曹操&quot; class=&quot;headerlink&quot; title=&quot;曹操&quot;&gt;&lt;/a&gt;曹操&lt;/h4&gt;&lt;p&gt;对酒当歌，人生几何！譬如朝露，去日苦多。&lt;br&gt;
     
     </summary>
     
+      <category term="杂文" scheme="http://prophetjeff.com/categories/%E6%9D%82%E6%96%87/"/>
+    
+    
+      <category term="poetry" scheme="http://prophetjeff.com/tags/poetry/"/>
     
   </entry>
   
