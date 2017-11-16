@@ -4,6 +4,30 @@
 
     
   <url>
+    <loc>http://prophetjeff.com/2017/11/16/mysql-4/</loc>
+    <lastmod>2017-11-16T11:59:39.411Z</lastmod>
+    <data>
+        <display>
+        <title>Mysql学习笔记（四）——数据过滤</title>
+        <pubTime>2017-11-16T01:52:03.000Z</pubTime>
+        
+        <tag>Mysql</tag>
+         
+        <tag>通配符</tag>
+         
+        <tag>正则表达式</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mysql" url="http://prophetjeff.com/categories/Mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://prophetjeff.com/2017/11/15/mysql-3/</loc>
     <lastmod>2017-11-15T07:27:53.884Z</lastmod>
     <data>

@@ -1,0 +1,1332 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Mysql,通配符,正则表达式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Jeff's Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="数据库表包含了大量的数据，通常我们并不期望检索表中的所有行。正如在上一章节中采用limit子句实现结果限定一样，更一般地，我们希望准确检索到表中的特定数据（即表中数据的子集）。这需要在select语句检索中指定搜索条件来完成，搜索条件也称为过滤条件。本章节通过介绍select语句中的where子句，通配符以及正则表达式来实现数据过滤。">
+<meta name="keywords" content="Mysql,通配符,正则表达式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql学习笔记（四）——数据过滤">
+<meta property="og:url" content="http://prophetjeff.com/2017/11/16/mysql-4/index.html">
+<meta property="og:site_name" content="Jeff&#39;s Blog">
+<meta property="og:description" content="数据库表包含了大量的数据，通常我们并不期望检索表中的所有行。正如在上一章节中采用limit子句实现结果限定一样，更一般地，我们希望准确检索到表中的特定数据（即表中数据的子集）。这需要在select语句检索中指定搜索条件来完成，搜索条件也称为过滤条件。本章节通过介绍select语句中的where子句，通配符以及正则表达式来实现数据过滤。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-16T11:59:39.411Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mysql学习笔记（四）——数据过滤">
+<meta name="twitter:description" content="数据库表包含了大量的数据，通常我们并不期望检索表中的所有行。正如在上一章节中采用limit子句实现结果限定一样，更一般地，我们希望准确检索到表中的特定数据（即表中数据的子集）。这需要在select语句检索中指定搜索条件来完成，搜索条件也称为过滤条件。本章节通过介绍select语句中的where子句，通配符以及正则表达式来实现数据过滤。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://prophetjeff.com/2017/11/16/mysql-4/"/>
+
+
+
+
+
+  <title> Mysql学习笔记（四）——数据过滤 | Jeff's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?107868d56107fff0790fbbac902971a7";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jeff's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">李俊锋的个人独立博客</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/16/mysql-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jeff Li">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jeff's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Mysql学习笔记（四）——数据过滤
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-16T09:52:03+08:00">
+                2017-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/11/16/mysql-4/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（四）——数据过滤">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,765
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　数据库表包含了大量的数据，通常我们并不期望检索表中的所有行。正如在上一章节中采用<code>limit</code>子句实现结果限定一样，更一般地，我们希望准确检索到表中的特定数据（即表中数据的子集）。这需要在<code>select</code>语句检索中指定搜索条件来完成，搜索条件也称为过滤条件。本章节通过介绍<code>select</code>语句中的<code>where</code>子句，通配符以及正则表达式来实现数据过滤。<br><a id="more"></a></p>
+<h2 id="1-使用WHERE子句过滤数据"><a href="#1-使用WHERE子句过滤数据" class="headerlink" title="1. 使用WHERE子句过滤数据"></a>1. 使用WHERE子句过滤数据</h2><p>　　在<code>select</code>语句中，数据根据<code>where</code>子句中指定的搜索条件进行过滤。注意使用多个子句时的次序，如果出现<code>order by</code>子句，那么<code>where</code>子句需要使用在前者之前，否则将会报错。</p>
+<h3 id="1-1-WHERE子句条件操作符"><a href="#1-1-WHERE子句条件操作符" class="headerlink" title="1.1 WHERE子句条件操作符"></a>1.1 WHERE子句条件操作符</h3><p>　　首先来看一个例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name, prod_price            #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_price = <span class="number">2.5</span>;</div><div class="line">+<span class="comment">---------------+------------+          #输出</span></div><div class="line">| prod_name     | prod_price |</div><div class="line">+<span class="comment">---------------+------------+</span></div><div class="line">| Carrots       |       2.50 |</div><div class="line">| TNT (1 stick) |       2.50 |</div><div class="line">+<span class="comment">---------------+------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.01</span> sec)</div></pre></td></tr></table></figure>
+<p>上述语句表示从products表中检索两个列，但不返回其所有行而是返回prod_price等于2.5的行。这个例子采用简单的相等搜索条件，它检查一个列是否具有指定的值，并据此进行过滤，但是SQL能够实现不只如此。下面列出了更多WHERE子句操作符：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">操作符</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">操作符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">=</td>
+<td style="text-align:center">等于</td>
+<td style="text-align:center">&lt;&gt;</td>
+<td style="text-align:center">不等于</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;</td>
+<td style="text-align:center">小于</td>
+<td style="text-align:center">!=</td>
+<td style="text-align:center">不等于</td>
+</tr>
+<tr>
+<td style="text-align:center">&gt;</td>
+<td style="text-align:center">大于</td>
+<td style="text-align:center">&lt;=</td>
+<td style="text-align:center">小于等于</td>
+</tr>
+<tr>
+<td style="text-align:center">&gt;=</td>
+<td style="text-align:center">大于等于</td>
+<td style="text-align:center">between</td>
+<td style="text-align:center">在指定两个值之间</td>
+</tr>
+</tbody>
+</table>
+<p>注意，需要使用单引号来限定字符串，如果将值与串类型的列进行比较则需要限定引号，而与数值比较时不需要。下例使用了BETWEEN操作符，其语法与其他WHERE子句操作符略有不同，它需要提供两个值（即范围的起始值和结束值）并使用<code>and</code>关键连接，BETWEEN则匹配该范围中的所有值包括端点值。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name, prod_price              #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_price <span class="keyword">between</span> <span class="number">5</span> <span class="keyword">and</span> <span class="number">10</span>;</div><div class="line">+<span class="comment">----------------+------------+           #输出</span></div><div class="line">| prod_name      | prod_price |</div><div class="line">+<span class="comment">----------------+------------+</span></div><div class="line">| .5 ton anvil   |       5.99 |</div><div class="line">| 1 ton anvil    |       9.99 |</div><div class="line">| Bird seed      |      10.00 |</div><div class="line">| Oil can        |       8.99 |</div><div class="line">| TNT (5 sticks) |      10.00 |</div><div class="line">+<span class="comment">----------------+------------+</span></div><div class="line">5 rows in <span class="keyword">set</span> (<span class="number">0.01</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="如何进行空值检查？"><a href="#如何进行空值检查？" class="headerlink" title="如何进行空值检查？"></a>如何进行空值检查？</h3><p>　　在创建表时，设计人员可以指定其中的列是否可以不包含值。一个列不包含值时，称其为包含空值NULL。要注意，空值与字段包含0、空字符串、空格不同。<code>select</code>语句中有一条特殊的<code>where</code>子句，可以实现检索具有空值的列，如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name                 #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_price <span class="keyword">is</span> <span class="literal">null</span>;</div><div class="line">Empty <span class="keyword">set</span> (<span class="number">0.00</span> sec)             #输出</div></pre></td></tr></table></figure>
+<p>这条语句返回没有价格（空prod_price字段，非价格为0）的所有产品，由于表中没有这样的行，所以没有返回数据。注意，在通过筛选不具有特定值（&lt;&gt;条件操作符）的行时，可能希望返回具有NULL值的行，但是实际上未知是有特定含义的，数据库不知道它们是否匹配所以不会返回NULL值，需要进行进一步验证。</p>
+<h3 id="组合WHERE子句"><a href="#组合WHERE子句" class="headerlink" title="组合WHERE子句"></a>组合WHERE子句</h3><p>　　上述介绍的所有<code>where</code>子句在过滤数据时使用的都是单一的条件，实际中往往需要通过多个<code>where</code>子句建立更强更高级的搜索条件。Mysql可以通过<code>and</code>和<code>or</code>操作符连接多条<code>where</code>子句。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, prod_price, prod_name              #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> vend_id = <span class="number">1003</span> <span class="keyword">and</span> prod_price &lt;= <span class="number">10</span>;</div><div class="line">+<span class="comment">---------+------------+----------------+          #输出</span></div><div class="line">| prod_id | prod_price | prod_name      |</div><div class="line">+<span class="comment">---------+------------+----------------+</span></div><div class="line">| FB      |      10.00 | Bird seed      |</div><div class="line">| FC      |       2.50 | Carrots        |</div><div class="line">| SLING   |       4.49 | Sling          |</div><div class="line">| TNT1    |       2.50 | TNT (1 stick)  |</div><div class="line">| TNT2    |      10.00 | TNT (5 sticks) |</div><div class="line">+<span class="comment">---------+------------+----------------+</span></div><div class="line">5 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>上述语句检索供应商ID为1003且价格小于等于10美元的所有产品，<code>and</code>关键字用在<code>where</code>子句中可检索同时满足给定条件的行。当然，可以将更多过滤条件组合在一起，但每添加一条就需要再加一个关键字。</p>
+<p>　　类似地，<code>or</code>操作符用在<code>where</code>子句中可检索满足任一给定条件的行。需要特别注意的是，<code>where</code>子句可包含任意数目的<code>and</code>和<code>or</code>操作符，两者结合可以实现更复杂的检索。但组合<code>and</code>和<code>or</code>会面临一个问题——处理次序。SQL在处理<code>or</code>操作符前会优先处理<code>and</code>操作符，即<code>and</code>的优先级更高。为了避免出现歧义和错误，可以使用圆括号对操作符进行明确的分组，而不应该过分依赖默认次序。</p>
+<h3 id="WHERE子句中的IN操作符和NOT操作符"><a href="#WHERE子句中的IN操作符和NOT操作符" class="headerlink" title="WHERE子句中的IN操作符和NOT操作符"></a>WHERE子句中的IN操作符和NOT操作符</h3><ul>
+<li><code>in</code>：<code>in</code>操作符用来指定条件范围，范围中的每个条件都可以进行匹配。</li>
+<li><code>not</code>：<code>not</code>操作符是用来否定后跟条件的关键字。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name, prod_price            #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> vend_id <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">1002</span>,<span class="number">1003</span>)</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_name;</div><div class="line">+<span class="comment">--------------+------------+           #输出</span></div><div class="line">| prod_name    | prod_price |</div><div class="line">+<span class="comment">--------------+------------+</span></div><div class="line">| .5 ton anvil |       5.99 |</div><div class="line">| 1 ton anvil  |       9.99 |</div><div class="line">| 2 ton anvil  |      14.99 |</div><div class="line">| JetPack 1000 |      35.00 |</div><div class="line">| JetPack 2000 |      55.00 |</div><div class="line">+<span class="comment">--------------+------------+</span></div><div class="line">5 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>要注意，此处的<code>(1002,1003)</code>并非代表一个区间，而是包含1002及1003这两个元素的集合。区间的表示是使用<code>between</code>操作符。</p>
+<p>　　上例语句检索了非1002及1003供应商的所有产品及其价格，并按照产品名进行排序。可以看出，<code>in</code>操作符的功能与<code>or</code>功能非常相似，实际上，在使用多个过滤条件时<code>in</code>操作符更加清楚直观执行更快（因为它使用的操作符更少）。<code>in</code>操作符的最大优点在于它可以包含其他<code>select</code>语句（子查询），在后续的章节中会对它进行介绍。同样地，<code>not</code>关键字可以简化更加复杂的多个过滤条件，提高效率。</p>
+<h2 id="2-使用通配符进行过滤"><a href="#2-使用通配符进行过滤" class="headerlink" title="2. 使用通配符进行过滤"></a>2. 使用通配符进行过滤</h2><p>　　前文介绍的所有操作符都是针对已知值进行过滤的，但有的时候我们对自己要检索的数据了解得并不是那么全面或者说清楚。比如，如何检索在产品名中包含文本“jet”的所有产品？显然，前文提供的方法都行不通，因为我们不清楚自己要检索的产品名称具体是什么，这时，我们需要使用通配符创建特定的搜索模式。</p>
+<p>　　在搜索子句中要使用通配符，必须使用<code>like</code>操作符。<code>like</code>指示Mysql后跟的搜索模式利用通配符匹配，而不是直接相等匹配进行比较。</p>
+<ul>
+<li><strong>通配符</strong>（wildcard）：用来匹配值的一部分的特殊字符。</li>
+<li><strong>搜索模式</strong>（search pattern）：由字面值、通配符或两者组合构成的搜索条件。</li>
+<li><strong>谓词</strong>（predicate）：操作符何时不是操作符？答案是在它作为谓词时。（从技术上说，<code>like</code>是谓词而不是操作符，虽然最终的结果是相同的，但需要对此术语进行了解，以免在SQL文档中遇到此术语时不知道）。</li>
+</ul>
+<h3 id="2-1-百分号（-）通配符"><a href="#2-1-百分号（-）通配符" class="headerlink" title="2.1 百分号（%）通配符"></a>2.1 百分号（%）通配符</h3><p>　　最常使用的通配符是百分号（%）。在搜索中，%表示任何字符出现任意次数。例如，为了找出所有产品名以“jet”起始的产品，可以使用如下<code>select</code>语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, prod_name              #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name <span class="keyword">like</span> <span class="string">'jet%'</span>;</div><div class="line">+<span class="comment">---------+--------------+             #输出</span></div><div class="line">| prod_id | prod_name    |</div><div class="line">+<span class="comment">---------+--------------+</span></div><div class="line">| JP1000  | JetPack 1000 |</div><div class="line">| JP2000  | JetPack 2000 |</div><div class="line">+<span class="comment">---------+--------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>此例使用的搜索模式为’jet%’，在执行这条子句时将检索任意以“jet”起头的词。<code>%</code>告诉Mysql接受“jet”之后的任意字符。注意，通配符可以在搜索模式中任意位置中使用，并且可以使用多个通配符。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, prod_name          #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name <span class="keyword">like</span> <span class="string">'%anvil%'</span>     #表示匹配任何位置包含文本anvil的值</div></pre></td></tr></table></figure>
+<p>注意，<code>%</code>代表搜索模式中给定位置的0个，1个或多个字符（NULL除外，即<code>like &#39;%&#39;</code>也不能匹配NULL值，而空格不是空值是字符不要疏忽）。</p>
+<h3 id="2-2-下划线（-）通配符"><a href="#2-2-下划线（-）通配符" class="headerlink" title="2.2 下划线（_）通配符"></a>2.2 下划线（_）通配符</h3><p>　　下划线通配符与百分号通配符用途基本一致，但是下划线只匹配单个字符而不是多个。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, prod_name                 #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name <span class="keyword">like</span> <span class="string">'_ ton anvil'</span>;</div><div class="line">+<span class="comment">---------+-------------+                 #输出</span></div><div class="line">| prod_id | prod_name   |</div><div class="line">+<span class="comment">---------+-------------+</span></div><div class="line">| ANV02   | 1 ton anvil |</div><div class="line">| ANV03   | 2 ton anvil |</div><div class="line">+<span class="comment">---------+-------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>　　正如上述，Mysql通配符功能强大，但是这种共也是有代价的，使用通配符的检索处理往往比其他检索花的时间更长。因此，不要过度使用通配符（如果其他操作符能达到相同目的尽量使用其他操作符）。除非绝对必要，尽量不要讲通配符置于开始处，这样检索起来是最慢的。其次，要特别注意通配符的位置，如果位置错误可能不会返回你想要的数据。</p>
+<h2 id="3-使用正则表达式进行检索"><a href="#3-使用正则表达式进行检索" class="headerlink" title="3. 使用正则表达式进行检索"></a>3. 使用正则表达式进行检索</h2><p>　　对于基本的检索和过滤，前文使用的匹配、比较和通配符基本可以实现。但如果过滤条件更加复杂，比如从文本块中提取电话号码，找到重复单词等等目标，仅仅采用前文方法就不足以实现。正则表达式是通过正则表达式语言来建立，可以完成上述及更广泛目标（匹配文本）的特殊语言。Mysql用<code>where</code>子句对正则表达式提供了初步支持（Mysql仅支持多数正则表达式实现的一个很小的子集），允许指定正则表达式来过滤<code>select</code>语句检索出的数据。</p>
+<h3 id="3-1-基本字符匹配"><a href="#3-1-基本字符匹配" class="headerlink" title="3.1 基本字符匹配"></a>3.1 基本字符匹配</h3><p>　　首先来看下面这个例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name                    #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name regexp <span class="string">'.000'</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_name;</div><div class="line">+<span class="comment">--------------+                    #输出</span></div><div class="line">| prod_name    |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">| JetPack 1000 |</div><div class="line">| JetPack 2000 |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>这里使用了正则表达式<code>&#39;.000&#39;</code>。其中<code>.</code>是正则表达式语言中的一个特殊字符，它表示匹配任意一个字符。<code>regexp</code>关键字告诉Mysql后跟的东西作为正则表达式处理。当然，这个特殊的例子也可以通过<code>like</code>关键字和通配符来完成。注意，<code>like</code>和<code>regexp</code>的区别，<code>like</code>匹配整个列（如果不使用通配符来帮助的话），而<code>regexp</code>在列值内进行匹配。Mysql中的正则表达式不区分大小写，若要区分可使用<code>binary</code>关键字，如<code>where prod_name regexp binary &#39;JetPack .000&#39;</code>。</p>
+<h3 id="3-2-进行OR匹配"><a href="#3-2-进行OR匹配" class="headerlink" title="3.2 进行OR匹配"></a>3.2 进行OR匹配</h3><p>　　见下面这个例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name                             #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name regexp <span class="string">'1000|2000|3000'</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_name;</div><div class="line">+<span class="comment">--------------+                             #输出</span></div><div class="line">| prod_name    |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">| JetPack 1000 |</div><div class="line">| JetPack 2000 |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p><code>|</code>是正则表达式中的OR操作符，它表示匹配其中之一。</p>
+<h3 id="3-3-匹配几个字符之一"><a href="#3-3-匹配几个字符之一" class="headerlink" title="3.3 匹配几个字符之一"></a>3.3 匹配几个字符之一</h3><p>　　要匹配特定的字符，可以使用一组被<code>[</code>和<code>]</code>括起来 字符来完成。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name                              #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name regexp <span class="string">'[123] ton'</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_name;</div><div class="line">+<span class="comment">-------------+                               #输出</span></div><div class="line">| prod_name   |</div><div class="line">+<span class="comment">-------------+</span></div><div class="line">| 1 ton anvil |</div><div class="line">| 2 ton anvil |</div><div class="line">+<span class="comment">-------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>这里，<code>[123]</code>定义一组字符，它的意思是匹配1或2或3。正如所见，<code>[]</code>是另一种形式的OR语句，它是<code>[1|2|3] ton</code>的缩写，也可以使用后者。至于为和需要用<code>[]</code>来定义OR语句要查找什么，各位可以自己试一试去掉<code>[]</code>会发生什么。注意，字符集合也可以被否定（即，它们将匹配除指定字符外的任何东西，这一目的通过在<code>[]</code>内开始处放置一个<code>^</code>来完成，如<code>[^123]</code>）。</p>
+<h3 id="3-4-匹配范围"><a href="#3-4-匹配范围" class="headerlink" title="3.4 匹配范围"></a>3.4 匹配范围</h3><p>　　集合可以用来定义要匹配的一个或多个字符，比如<code>[123456789]</code>。但显然，当字符元素过多时，使用这种表达将会变得麻烦而且容易出错。可以使用<code>-</code>来定义一个范围，达到简化集合的作用，如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name                              #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name regexp <span class="string">'[1-3] ton'</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_name;</div><div class="line">+<span class="comment">-------------+                               #输出</span></div><div class="line">| prod_name   |</div><div class="line">+<span class="comment">-------------+</span></div><div class="line">| 1 ton anvil |</div><div class="line">| 2 ton anvil |</div><div class="line">+<span class="comment">-------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>注意，范围不一定只可以是数值的，比如<code>[a-z]</code>匹配任意字母字符。</p>
+<h3 id="3-5-匹配特殊字符"><a href="#3-5-匹配特殊字符" class="headerlink" title="3.5 匹配特殊字符"></a>3.5 匹配特殊字符</h3><p>　　此处所说的特殊字符是正则表示语言中使用过的字符，比如要匹配文本中的“.”，而<code>.</code>在正则表达式中有特殊含义，因此此处需要使用转义（由<code>\\</code>来引导），如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> vend_name                             #输入</div><div class="line"><span class="keyword">from</span> vendors</div><div class="line"><span class="keyword">where</span> vend_name regexp <span class="string">'\\.'</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> vend_name;</div><div class="line">+<span class="comment">--------------+                             #输出</span></div><div class="line">| vend_name    |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">| Furball Inc. |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.01</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="3-6-匹配字符类"><a href="#3-6-匹配字符类" class="headerlink" title="3.6 匹配字符类"></a>3.6 匹配字符类</h3><p>　　实际中会遇到检索自己常使用的数字、所有字母字符或所有数字字母字符等的匹配。为了方便起见，可以使用预定的字符集，称为字符类（character class）。见下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[:alnum:]</td>
+<td style="text-align:left">任意数字和字母（同<code>[a-zA-Z0-9]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:alpha:]</td>
+<td style="text-align:left">任意字符（同<code>[a-zA-Z]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:blank:]</td>
+<td style="text-align:left">空格和制表（同<code>[\\t]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:cntrl:]</td>
+<td style="text-align:left">ASCII控制字符（ASCII0到31和127）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:digit:]</td>
+<td style="text-align:left">任意数字（同<code>[0-9]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:graph:]</td>
+<td style="text-align:left">与[:print:]相同但不包括空格</td>
+</tr>
+<tr>
+<td style="text-align:center">[:lower:]</td>
+<td style="text-align:left">任意小写字母（同<code>[a-z]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:print:]</td>
+<td style="text-align:left">任意可打印字符</td>
+</tr>
+<tr>
+<td style="text-align:center">[:punct:]</td>
+<td style="text-align:left">既不在[:alnum:]又不在[:cntrl:]中的任意字符</td>
+</tr>
+<tr>
+<td style="text-align:center">[:space:]</td>
+<td style="text-align:left">包括空格在内的任意空白字符（同<code>[\\f\\n\\r\\t\\v]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:upper:]</td>
+<td style="text-align:left">任意大写字母（同<code>[A-Z]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:center">[:xdigit:]</td>
+<td style="text-align:left">任意十六进制数字（同<code>[a-fA-F0-9]</code>）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-7-匹配多个实例"><a href="#3-7-匹配多个实例" class="headerlink" title="3.7 匹配多个实例"></a>3.7 匹配多个实例</h3><p>　　目前使用的所用正则表达式都试图匹配单词出现，有时候，需要的检索对匹配的数目控制更强。例如，想要搜寻所有的数，不管包含都少个数字，或者寻找一个单词且还能够适应一个尾随的s（如果存在）等等。这可以通过正则表达式的重复元字符来完成。下面是正则表达式重复元字符表:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">元字符</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:left">0个或多个匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:left">1个或多个匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:left">0个或1个匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td style="text-align:left">指定数目的匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}</td>
+<td style="text-align:left">不少于指定数目的匹配</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,m}</td>
+<td style="text-align:left">匹配数目的范围（m不超过225）</td>
+</tr>
+</tbody>
+</table>
+<p>下面是一个使用重复元字符的例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name                                    #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name regexp <span class="string">'\\([0-9] sticks?\\)'</span>        #？使其前一个字母s可选</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_name;</div><div class="line">+<span class="comment">----------------+                                  #输出</span></div><div class="line">| prod_name      |</div><div class="line">+<span class="comment">----------------+</span></div><div class="line">| TNT (1 stick)  |</div><div class="line">| TNT (5 sticks) |</div><div class="line">+<span class="comment">----------------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="3-8-定位符"><a href="#3-8-定位符" class="headerlink" title="3.8 定位符"></a>3.8 定位符</h3><p>　　前述所有例子都是匹配一个串中任意位置的文本，想要匹配特定位置的文本需要使用下表列出的定位符：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">定位元字符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center">文本的开始</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">文本的结尾</td>
+</tr>
+<tr>
+<td style="text-align:center">[[:&lt;:]]</td>
+<td style="text-align:center">词的开始</td>
+</tr>
+<tr>
+<td style="text-align:center">[[:&gt;:]]</td>
+<td style="text-align:center">词的结尾</td>
+</tr>
+</tbody>
+</table>
+<p>　　例如，若想找出一个数（包括以一个小数点开始的数）开头的所有产品名：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name                                     #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_name regexp <span class="string">'^[0-9\\.]'</span></div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_name;</div><div class="line">+<span class="comment">--------------+                                     #输出</span></div><div class="line">| prod_name    |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">| .5 ton anvil |</div><div class="line">| 1 ton anvil  |</div><div class="line">| 2 ton anvil  |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">3 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>注意，<code>^</code>有双重用途，在集合中（由<code>[</code>和<code>]</code>定义）它用于否定该集合；否则，它用来指串的开始处。</p>
+<h3 id="如何测试正则表达式？"><a href="#如何测试正则表达式？" class="headerlink" title="如何测试正则表达式？"></a>如何测试正则表达式？</h3><p>　　实际中可以在不使用数据库表的情况下用<code>select</code>来测试正则表达式，此时，<code>regexp</code>总是返回0（没有匹配）或1（匹配）。例如<code>select &#39;hello&#39; regexp &#39;[0-9]&#39;;</code>，这个例子返回的结果是0。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Mysql/" rel="tag"># Mysql</a>
+          
+            <a href="/tags/通配符/" rel="tag"># 通配符</a>
+          
+            <a href="/tags/正则表达式/" rel="tag"># 正则表达式</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/15/mysql-3/" rel="next" title="Mysql学习笔记（三）——数据检索与排序">
+                <i class="fa fa-chevron-left"></i> Mysql学习笔记（三）——数据检索与排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="-mob-share-ui-button -mob-share-open">分享</div>
+<div class="-mob-share-ui" style="display: none">
+    <ul class="-mob-share-list">
+        <li class="-mob-share-weibo"><p>新浪微博</p></li>
+        <li class="-mob-share-qq"><p>QQ好友</p></li>
+        <li class="-mob-share-weixin"><p>微信</p></li>
+        <li class="-mob-share-douban"><p>豆瓣</p></li>
+        <li class="-mob-share-facebook"><p>Facebook</p></li>
+        <li class="-mob-share-twitter"><p>Twitter</p></li>
+        <li class="-mob-share-linkedin"><p>LinkedIn</p></li>
+    </ul>
+    <div class="-mob-share-close">取消</div>
+</div>
+<div class="-mob-share-ui-bg"></div>
+<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=2226dccddfa97"></script>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Jeff Li" />
+          <p class="site-author-name" itemprop="name">Jeff Li</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/LiJunfengJeffLi" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailto:lijunfengmayi@qq.com" target="_blank" title="E-mail">
+                  
+                    <i class="fa fa-fw fa-envelope"></i>
+                  
+                  E-mail
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/俊锋-李-285a6414b/" target="_blank" title="linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  linkedin
+                </a>
+              </span>
+            
+          
+        </div>
+
+        <div id="music163player">
+          <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=280 height=86 src="//music.163.com/outchain/player?type=2&id=5191751&auto=0&height=66">
+          </iframe>
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://segmentfault.com/" title="SegmentFault" target="_blank">SegmentFault</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.zhihu.com/" title="知乎" target="_blank">知乎</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeff Li</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("j1VoIBQDGzwnQh7w3JeIoYQe-gzGzoHsz", "zBc0CWacg7xsiqtl4ps51DIJ");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>
