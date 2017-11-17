@@ -101,18 +101,18 @@
 
 
 
-<meta name="description" content="前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。">
+<meta name="description" content="存储在数据库表中的数据往往都是原始数据，通常它们并非以我们需要的格式展现。比如，城市和邮政编码分别存储在同的列中，但邮件标签打印程序需要将它们作为一个字段（恰当格式）检索出来；物品订单表中分别存储了物品的价格和数量，但为了打印发票需要检索物品的总价格。为了实现上述目标，我们需要直接从数据库中检索出经过计算、转换或者格式化的数据（不能理解为检索出原始数据然后再利用相应软件完成此过程），这就是计算">
 <meta name="keywords" content="Mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql学习笔记（二）——连接服务器">
-<meta property="og:url" content="http://prophetjeff.com/2017/11/14/mysql-2/index.html">
+<meta property="og:title" content="Mysql学习笔记（五）——计算字段与函数">
+<meta property="og:url" content="http://prophetjeff.com/2017/11/17/mysql-5/index.html">
 <meta property="og:site_name" content="Jeff&#39;s Blog">
-<meta property="og:description" content="前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。">
+<meta property="og:description" content="存储在数据库表中的数据往往都是原始数据，通常它们并非以我们需要的格式展现。比如，城市和邮政编码分别存储在同的列中，但邮件标签打印程序需要将它们作为一个字段（恰当格式）检索出来；物品订单表中分别存储了物品的价格和数量，但为了打印发票需要检索物品的总价格。为了实现上述目标，我们需要直接从数据库中检索出经过计算、转换或者格式化的数据（不能理解为检索出原始数据然后再利用相应软件完成此过程），这就是计算">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-14T10:05:32.567Z">
+<meta property="og:updated_time" content="2017-11-17T08:20:11.362Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql学习笔记（二）——连接服务器">
-<meta name="twitter:description" content="前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。">
+<meta name="twitter:title" content="Mysql学习笔记（五）——计算字段与函数">
+<meta name="twitter:description" content="存储在数据库表中的数据往往都是原始数据，通常它们并非以我们需要的格式展现。比如，城市和邮政编码分别存储在同的列中，但邮件标签打印程序需要将它们作为一个字段（恰当格式）检索出来；物品订单表中分别存储了物品的价格和数量，但为了打印发票需要检索物品的总价格。为了实现上述目标，我们需要直接从数据库中检索出经过计算、转换或者格式化的数据（不能理解为检索出原始数据然后再利用相应软件完成此过程），这就是计算">
 
 
 
@@ -140,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://prophetjeff.com/2017/11/14/mysql-2/"/>
+  <link rel="canonical" href="http://prophetjeff.com/2017/11/17/mysql-5/"/>
 
 
 
 
 
-  <title> Mysql学习笔记（二）——连接服务器 | Jeff's Blog </title>
+  <title> Mysql学习笔记（五）——计算字段与函数 | Jeff's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -329,7 +329,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/14/mysql-2/">
+    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/17/mysql-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeff Li">
@@ -350,7 +350,7 @@
             
             
               
-                Mysql学习笔记（二）——连接服务器
+                Mysql学习笔记（五）——计算字段与函数
               
             
           </h2>
@@ -365,8 +365,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-14T16:10:00+08:00">
-                2017-11-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-17T16:20:00+08:00">
+                2017-11-17
               </time>
             
 
@@ -405,7 +405,7 @@
 
           
           
-             <span id="/2017/11/14/mysql-2/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（二）——连接服务器">
+             <span id="/2017/11/17/mysql-5/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（五）——计算字段与函数">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -429,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  921
+                  1,973
                 </span>
               
 
@@ -452,29 +452,235 @@
       
 
       
-        <p>　　前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。<br><a id="more"></a></p>
-<h4 id="服务器连接"><a href="#服务器连接" class="headerlink" title="服务器连接"></a>服务器连接</h4><p>要连接到服务器需要知道其四个基本信息：主机名，端口，用户名以及口令。</p>
-<ul>
-<li><strong>主机名</strong>：也是计算机名，如果连接的是本地Mysql服务器则为localhost。</li>
-<li><strong>端口</strong>：如果使用默认端口3306之外的端口需要提供其端口号。（在网络上，各主机通过TCP/IP协议进行数据交互，而主机上有多程序同时运行，要将数据准确传输到某个特定的程序就需要引入端口机制将各个程序与特定端口号对应，进而实现针对到程序间的数据交互。）</li>
-<li><strong>用户名</strong></li>
-<li><strong>用户名口令</strong>：就是对应的密码。</li>
+        <p>　　存储在数据库表中的数据往往都是原始数据，通常它们并非以我们需要的格式展现。比如，城市和邮政编码分别存储在同的列中，但邮件标签打印程序需要将它们作为一个字段（恰当格式）检索出来；物品订单表中分别存储了物品的价格和数量，但为了打印发票需要检索物品的总价格。为了实现上述目标，我们需要直接从数据库中检索出经过计算、转换或者格式化的数据（不能理解为检索出原始数据然后再利用相应软件完成此过程），这就是计算字段。计算字段并不实际存储在数据库表中，而是在运行时于<code>select</code>语句中创建的。</p>
+<p>　　实际上，在SQL语句中完成的许多转换和格式化工作都可以在客户机上许多应用软件来完成，但是一般来说在数据库服务器上完成这些操作要比在客户机中更快（因为DBMS是设计来快速有效完成这种处理的）。<br><a id="more"></a></p>
+<h2 id="1-创建计算字段"><a href="#1-创建计算字段" class="headerlink" title="1. 创建计算字段"></a>1. 创建计算字段</h2><h3 id="1-1-拼接字段"><a href="#1-1-拼接字段" class="headerlink" title="1.1 拼接字段"></a>1.1 拼接字段</h3><ul>
+<li><strong>拼接</strong>（concatenate）：将值连接到一起构成单个值。</li>
 </ul>
-<p>在命令提示符下输入:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -h localhost -u root -p *** -P 3306 #-h后跟主机名 -u后跟用户名 -p后跟口令 -P后跟端口号</div></pre></td></tr></table></figure>
-<p>输入完成后会出现如下一个简单提示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 3</div><div class="line">Server version: 5.7.19-log MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line"></div><div class="line">Type &apos;help;&apos; or &apos;\h&apos; for help. Type &apos;\c&apos; to clear the current input statement.</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
-<p>注意，如果连接本地服务器出现错误，请检查本地Mysql服务是否开启，或许需要手动开启服务。后续命令输入在<code>mysql&gt;</code>之后，命令用<code>；</code>结束，输入<code>quit</code>或<code>exit</code>退出Mysql命令行实用程序。</p>
-<h4 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h4><p>　　要知道，在最初连接到Mysql时，没有任何数据库打开供你使用，你需要选择一个数据库进而执行其他数据库操作。如果你不知道可以使用的数据库名，可以使用<code>show</code>关键字来显示数据库信息。下面是一个简单的例子：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">show databases;          #输入</div><div class="line">+<span class="comment">--------------------+   #输出</span></div><div class="line">| Database           |</div><div class="line">+<span class="comment">--------------------+</span></div><div class="line">| information_schema |</div><div class="line">| cda1               |</div><div class="line">| crashcourse        |</div><div class="line">| mysql              |</div><div class="line">| performance_schema |</div><div class="line">| sys                |</div><div class="line">+<span class="comment">--------------------+</span></div><div class="line">6 rows in <span class="keyword">set</span> (<span class="number">0.04</span> sec)</div></pre></td></tr></table></figure>
-<p>此处返回一个数据库列表，列表中是Mysql内部可能使用的数据库。下一步选择你想进入的数据库，如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use crashcourse;        #输入</div><div class="line">Database changed        #输出</div></pre></td></tr></table></figure>
-<p>注意，<code>use</code>语句不返回任何结果，依赖于使用的客户机软件，显示某种形式的通知。必须先使用<code>use</code>语句打开数据库才能读取其中的数据。</p>
-<h4 id="关于show语句"><a href="#关于show语句" class="headerlink" title="关于show语句"></a>关于show语句</h4><p>　　更多的<code>show</code>语句可以在Mysql命令行实用程序中，执行<code>help show;</code>进行查看，此处列出两个常用<code>show</code>语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">show tables;                  #输入</div><div class="line">+<span class="comment">-----------------------+     #输出</span></div><div class="line">| Tables_in_crashcourse |</div><div class="line">+<span class="comment">-----------------------+</span></div><div class="line">| customers             |</div><div class="line">| orderitems            |</div><div class="line">| orders                |</div><div class="line">| productnotes          |</div><div class="line">| products              |</div><div class="line">| vendors               |</div><div class="line">+<span class="comment">-----------------------+</span></div><div class="line">6 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，<code>show tables;</code>返回正在使用的数据库内的表的列表。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">show columns from products;                                    #输入</div><div class="line">+<span class="comment">------------+--------------+------+-----+---------+-------+   #输出</span></div><div class="line">| Field      | Type         | Null | Key | Default | Extra |</div><div class="line">+<span class="comment">------------+--------------+------+-----+---------+-------+</span></div><div class="line">| prod_id    | char(10)     | NO   | PRI | NULL    |       |</div><div class="line">| vend_id    | int(11)      | NO   | MUL | NULL    |       |</div><div class="line">| prod_name  | char(255)    | NO   |     | NULL    |       |</div><div class="line">| prod_price | decimal(8,2) | NO   |     | NULL    |       |</div><div class="line">| prod_desc  | text         | YES  |     | NULL    |       |</div><div class="line">+<span class="comment">------------+--------------+------+-----+---------+-------+</span></div><div class="line">5 rows in <span class="keyword">set</span> (<span class="number">0.12</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，<code>show columns</code>语句要求指定一个数据库内的表名，此例中使用的是products表，它对每个表中的每个字段返回一行（包含了各行数据类型，允许空值与否，主外键，默认值及额外信息）。<code>show columns</code>还有一种快捷方式，使用<code>describe products</code>会返回如上相同的结果。</p>
+<p>　　首先举一个简单的例子，vendors表中包含供应商名和位置信息。假如现在需要生成一个供应商报表，需要在供应商的名字中按照name(location)这样的格式列出供应商的位置。此报表仅需要单个值，但数据库表中的相应数据存储在vend_name和vend_country中，此外还需要将vend_country用括号括起来。上述要求可以在Mysql的<code>select</code>语句中使用<code>concat()</code>函数来实现拼接这两个列。如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">concat</span>(vend_name,<span class="string">'('</span>,vend_country,<span class="string">')'</span>)                 #输入</div><div class="line"><span class="keyword">from</span> vendors</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> vend_name;</div><div class="line">+<span class="comment">----------------------------------------+                    #输出</span></div><div class="line">| concat(vend_name,'(',vend_country,')') |</div><div class="line">+<span class="comment">----------------------------------------+</span></div><div class="line">| ACME(USA)                              |</div><div class="line">| Anvils R Us(USA)                       |</div><div class="line">| Furball Inc.(USA)                      |</div><div class="line">| Jet <span class="keyword">Set</span>(England)                       |</div><div class="line">| Jouets Et Ours(France)                 |</div><div class="line">| LT Supplies(USA)                       |</div><div class="line">+<span class="comment">----------------------------------------+</span></div><div class="line"><span class="number">6</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.02</span> sec)</div></pre></td></tr></table></figure>
+<p>可见，<code>concat()</code>函数将其括号内的参数进行拼接，各个参数之间由逗号分隔。注意，在数据类型为字符串时容易疏忽掉空格，Mysql提供<code>rtrim()</code>函数和<code>ltrim()</code>函数来分别实现去掉字符串右边和左边的空格。如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">concat</span>(<span class="keyword">rtrim</span>(vend_name),<span class="string">'('</span>,<span class="keyword">rtrim</span>(vend_country),<span class="string">')'</span>)                 #输入</div><div class="line"><span class="keyword">from</span> vendors</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> vend_name;</div></pre></td></tr></table></figure>
+<h3 id="1-2-使用别名"><a href="#1-2-使用别名" class="headerlink" title="1.2 使用别名"></a>1.2 使用别名</h3><p>　　从上例可以看出，输出的拼接字段结果实际上是没有名字的，它只是一个值。要在客户机应用中应用该拼接字段或许会出现困难，SQL为了解决这个问题而支持列别名。别名是一个字段或值的替换名，使用<code>as</code>关键字赋予。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">concat</span>(vend_name,<span class="string">'('</span>,vend_country,<span class="string">')'</span>) <span class="keyword">as</span> vend_title                 #输入</div><div class="line"><span class="keyword">from</span> vendors</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> vend_name;</div><div class="line">+<span class="comment">------------------------+                                                  #输出</span></div><div class="line">| vend_title             |</div><div class="line">+<span class="comment">------------------------+</span></div><div class="line">| ACME(USA)              |</div><div class="line">| Anvils R Us(USA)       |</div><div class="line">| Furball Inc.(USA)      |</div><div class="line">| Jet <span class="keyword">Set</span>(England)       |</div><div class="line">| Jouets Et Ours(France) |</div><div class="line">| LT Supplies(USA)       |</div><div class="line">+<span class="comment">------------------------+</span></div><div class="line"><span class="number">6</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>上述语句本身作用与上一个例子相同，但本语句在计算字段之后跟了<code>as vend_title</code>。它指示SQL创建一个包含指定计算的名为<code>vend_title</code>的计算字段。任何客户机应用都可以按名引用这个列。</p>
+<h3 id="1-3-执行算数计算"><a href="#1-3-执行算数计算" class="headerlink" title="1.3 执行算数计算"></a>1.3 执行算数计算</h3><p>　　除了拼接字段，计算字段的第二种常见用途是对检索的数据进行算数运算。首先来看下面这个例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, quantity, item_price, quantity*item_price <span class="keyword">as</span> expanded_price #输入</div><div class="line"><span class="keyword">from</span> orderitems</div><div class="line"><span class="keyword">where</span> order_num = <span class="number">20005</span>;</div><div class="line">+<span class="comment">---------+----------+------------+----------------+                        #输出</span></div><div class="line">| prod_id | quantity | item_price | expanded_price |</div><div class="line">+<span class="comment">---------+----------+------------+----------------+</span></div><div class="line">| ANV01   |       10 |       5.99 |          59.90 |</div><div class="line">| ANV02   |        3 |       9.99 |          29.97 |</div><div class="line">| TNT2    |        5 |      10.00 |          50.00 |</div><div class="line">| FB      |        1 |      10.00 |          10.00 |</div><div class="line">+<span class="comment">---------+----------+------------+----------------+</span></div><div class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.15</span> sec)</div></pre></td></tr></table></figure>
+<p>上述语句检索出了订单号为20005的所有物品，并检索出它们的产品ID，产品数量，产品单价和总价。其中产品总价<code>expanded_price</code>为一个计算字段，此计算为<code>quantity*item_price</code>,列别名为<code>expanded_price</code>。如下给出Mysql支持的基本算数操作符，此外圆括号可以用来区分优先顺序：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">操作符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">加</td>
+</tr>
+<tr>
+<td style="text-align:center">-</td>
+<td style="text-align:center">减</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">乘</td>
+</tr>
+<tr>
+<td style="text-align:center">/</td>
+<td style="text-align:center">除</td>
+</tr>
+</tbody>
+</table>
+<p>可以使用<code>select</code>语句测试计算，比如<code>select 2*5;</code>将返回<code>10</code>。</p>
+<h2 id="2-使用数据处理函数"><a href="#2-使用数据处理函数" class="headerlink" title="2. 使用数据处理函数"></a>2. 使用数据处理函数</h2><p>　　同其他计算语言一样，SQL支持利用函数来处理数据，如前面已经用过的<code>concat()</code>函数。函数一般是在数据上执行的，它给数据的转换和处理提供了方便。注意，相比SQL语句函数的可移植性并不强，几乎每种DBMS都支持只适用于本身的函数。因此，在使用函数时最好进行代码注释。大多数SQL实现支持以下类型的函数：</p>
+<ul>
+<li>用于处理文本串的文本函数（如删除、填充或转换值）。</li>
+<li>用于在数值数据上进行算数操作的数值函数（如返回绝对值，进行代数运算）。</li>
+<li>用于处理日期和时间的函数（如返回两个日期差等等）。</li>
+<li>返回DBMS特殊信息的函数（如用户登录信息，版本信息）。</li>
+</ul>
+<h3 id="2-1-文本处理函数"><a href="#2-1-文本处理函数" class="headerlink" title="2.1 文本处理函数"></a>2.1 文本处理函数</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">left()</td>
+<td style="text-align:center">返回串左边的字符</td>
+</tr>
+<tr>
+<td style="text-align:center">length()</td>
+<td style="text-align:center">返回串的长度</td>
+</tr>
+<tr>
+<td style="text-align:center">locate()</td>
+<td style="text-align:center">找出串的一个子串</td>
+</tr>
+<tr>
+<td style="text-align:center">lower()</td>
+<td style="text-align:center">将串转换为小写</td>
+</tr>
+<tr>
+<td style="text-align:center">ltrim()</td>
+<td style="text-align:center">去掉串左边的空格</td>
+</tr>
+<tr>
+<td style="text-align:center">right()</td>
+<td style="text-align:center">返回串右边的字符</td>
+</tr>
+<tr>
+<td style="text-align:center">rtrim()</td>
+<td style="text-align:center">去掉串右边的空格</td>
+</tr>
+<tr>
+<td style="text-align:center">soundex()</td>
+<td style="text-align:center">返回串的soundex值</td>
+</tr>
+<tr>
+<td style="text-align:center">substring()</td>
+<td style="text-align:center">返回子串的字符</td>
+</tr>
+<tr>
+<td style="text-align:center">upper()</td>
+<td style="text-align:center">将串转换为大写</td>
+</tr>
+</tbody>
+</table>
+<p>注意，SOUNDEX是一个将任何文本串转换为描述其语音表示的字母数字模式的算法。SOUNDEX考虑了类似的发音字符和音节，使得能对串进行发音比较而不是字母比较。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> cust_name, cust_contact                                              #输入</div><div class="line"><span class="keyword">from</span> customers</div><div class="line"><span class="keyword">where</span> <span class="keyword">soundex</span>(cust_contact) = <span class="keyword">soundex</span>(<span class="string">'Y. Lie'</span>);</div><div class="line">+<span class="comment">-------------+--------------+                                              #输出</span></div><div class="line">| cust_name   | cust_contact |</div><div class="line">+<span class="comment">-------------+--------------+</span></div><div class="line">| Coyote Inc. | Y Lee        |</div><div class="line">+<span class="comment">-------------+--------------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.09</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="2-2-日期和时间处理函数"><a href="#2-2-日期和时间处理函数" class="headerlink" title="2.2 日期和时间处理函数"></a>2.2 日期和时间处理函数</h3><p>　　日期和时间采用相应的数据类型和特殊的格式存储，以便能快速和有效地排序或过滤，并且节省物理存储空间。一般，应用程序不使用用来存储日期和时间的格式，因此日期和时间函数总是被用来读取、统计和处理这些值。如下是常用的日期和时间处理函数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">adddate()</td>
+<td style="text-align:center">增加一个日期（天、周等）</td>
+</tr>
+<tr>
+<td style="text-align:center">addtime()</td>
+<td style="text-align:center">增加一个时间（时、分等）</td>
+</tr>
+<tr>
+<td style="text-align:center">curdate()</td>
+<td style="text-align:center">返回当前日期</td>
+</tr>
+<tr>
+<td style="text-align:center">curtime()</td>
+<td style="text-align:center">返回当前时间</td>
+</tr>
+<tr>
+<td style="text-align:center">date()</td>
+<td style="text-align:center">返回日期时间的日期部分</td>
+</tr>
+<tr>
+<td style="text-align:center">datediff()</td>
+<td style="text-align:center">计算两个日期之差</td>
+</tr>
+<tr>
+<td style="text-align:center">date_add()</td>
+<td style="text-align:center">高度灵活的日期计算函数</td>
+</tr>
+<tr>
+<td style="text-align:center">date_format()</td>
+<td style="text-align:center">返回一个格式化日期或时间串</td>
+</tr>
+<tr>
+<td style="text-align:center">day()</td>
+<td style="text-align:center">返回一个日期的天数部分</td>
+</tr>
+<tr>
+<td style="text-align:center">day0fweek()</td>
+<td style="text-align:center">对于一个日期，返回对应的星期几</td>
+</tr>
+<tr>
+<td style="text-align:center">hour()</td>
+<td style="text-align:center">返回一个时间的小时部分</td>
+</tr>
+<tr>
+<td style="text-align:center">minute()</td>
+<td style="text-align:center">返回一个时间的分钟部分</td>
+</tr>
+<tr>
+<td style="text-align:center">month()</td>
+<td style="text-align:center">返回一个时间的月份部分</td>
+</tr>
+<tr>
+<td style="text-align:center">now()</td>
+<td style="text-align:center">返回当前日期和时间</td>
+</tr>
+<tr>
+<td style="text-align:center">second()</td>
+<td style="text-align:center">返回一个时间的秒部分</td>
+</tr>
+<tr>
+<td style="text-align:center">time()</td>
+<td style="text-align:center">返回一个日期时间的时间部分</td>
+</tr>
+<tr>
+<td style="text-align:center">year()</td>
+<td style="text-align:center">返回一个日期的年份部分</td>
+</tr>
+</tbody>
+</table>
+<p>注意，在Mysql中使用的日期格式为yyyy-mm-dd，虽然一些其他格式也可行，但这是首选的日期格式（它排除了多义性）。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> cust_id, order_num                                                  #输入</div><div class="line"><span class="keyword">from</span> orders</div><div class="line"><span class="keyword">where</span> <span class="built_in">date</span>(order_date) = <span class="string">'2005-09-01'</span>;</div><div class="line">+<span class="comment">---------+-----------+                                                    #输出</span></div><div class="line">| cust_id | order_num |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">|   10001 |     20005 |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.09</span> sec)</div></pre></td></tr></table></figure>
+<h3 id="2-3-数值处理函数"><a href="#2-3-数值处理函数" class="headerlink" title="2.3 数值处理函数"></a>2.3 数值处理函数</h3><p>　　此类函数仅处理数值函数，一般主要用于代数、三角或几何运算，因此没有串或日期-时间处理函数的使用那么频繁。如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">abs()</td>
+<td style="text-align:center">返回一个数的绝对值</td>
+</tr>
+<tr>
+<td style="text-align:center">cos()</td>
+<td style="text-align:center">返回一个角度的余弦</td>
+</tr>
+<tr>
+<td style="text-align:center">exp()</td>
+<td style="text-align:center">返回一个数的指数值</td>
+</tr>
+<tr>
+<td style="text-align:center">mod()</td>
+<td style="text-align:center">返回除法操作的余数</td>
+</tr>
+<tr>
+<td style="text-align:center">pi()</td>
+<td style="text-align:center">返回圆周率</td>
+</tr>
+<tr>
+<td style="text-align:center">rand()</td>
+<td style="text-align:center">返回一个随机数</td>
+</tr>
+<tr>
+<td style="text-align:center">sin()</td>
+<td style="text-align:center">返回一个角度的正弦</td>
+</tr>
+<tr>
+<td style="text-align:center">sqrt()</td>
+<td style="text-align:center">返回一个数的平方根</td>
+</tr>
+<tr>
+<td style="text-align:center">tan()</td>
+<td style="text-align:center">返回一个角度的正切</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -517,8 +723,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/13/mysql-1/" rel="next" title="Mysql学习笔记（一）——数据库基础概念">
-                <i class="fa fa-chevron-left"></i> Mysql学习笔记（一）——数据库基础概念
+              <a href="/2017/11/16/mysql-4/" rel="next" title="Mysql学习笔记（四）——数据过滤">
+                <i class="fa fa-chevron-left"></i> Mysql学习笔记（四）——数据过滤
               </a>
             
           </div>
@@ -526,10 +732,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/15/mysql-3/" rel="prev" title="Mysql学习笔记（三）——数据检索与排序">
-                Mysql学习笔记（三）——数据检索与排序 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
