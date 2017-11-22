@@ -101,18 +101,18 @@
 
 
 
-<meta name="description" content="本章节介绍利用Mysql对数据进行分类汇总，即对各个指定组别数据进行汇总（包括求和，均值，极值等）。实现分组的的SQL语句为select语句的group by子句和having子句，而数据汇总是利用SQL的聚集函数。">
+<meta name="description" content="SQL最强大的功能之一就是能在数据检索查询的执行中联结（join）表，联结是利用SQL的SELECT能执行的最重要的操作。通过前面的章节我们知道，分解数据为多个表能更有效地存储及处理数据，且具有更大的可伸缩性（能够适应不断增加的工作量而不失败）。与此对应的代价是常规的单条SELECT语句难以同时对多个表进行检索。而使用联结可以解决这一问题。 　　联结是一种机制，用来在一条SELECT语句中关联">
 <meta name="keywords" content="Mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql学习笔记（六）——数据汇总与分组">
-<meta property="og:url" content="http://prophetjeff.com/2017/11/20/mysql-6/index.html">
+<meta property="og:title" content="Mysql学习笔记（八）——联结表">
+<meta property="og:url" content="http://prophetjeff.com/2017/11/22/mysql-8/index.html">
 <meta property="og:site_name" content="Jeff&#39;s Blog">
-<meta property="og:description" content="本章节介绍利用Mysql对数据进行分类汇总，即对各个指定组别数据进行汇总（包括求和，均值，极值等）。实现分组的的SQL语句为select语句的group by子句和having子句，而数据汇总是利用SQL的聚集函数。">
+<meta property="og:description" content="SQL最强大的功能之一就是能在数据检索查询的执行中联结（join）表，联结是利用SQL的SELECT能执行的最重要的操作。通过前面的章节我们知道，分解数据为多个表能更有效地存储及处理数据，且具有更大的可伸缩性（能够适应不断增加的工作量而不失败）。与此对应的代价是常规的单条SELECT语句难以同时对多个表进行检索。而使用联结可以解决这一问题。 　　联结是一种机制，用来在一条SELECT语句中关联">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-20T09:43:34.279Z">
+<meta property="og:updated_time" content="2017-11-22T08:09:17.976Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql学习笔记（六）——数据汇总与分组">
-<meta name="twitter:description" content="本章节介绍利用Mysql对数据进行分类汇总，即对各个指定组别数据进行汇总（包括求和，均值，极值等）。实现分组的的SQL语句为select语句的group by子句和having子句，而数据汇总是利用SQL的聚集函数。">
+<meta name="twitter:title" content="Mysql学习笔记（八）——联结表">
+<meta name="twitter:description" content="SQL最强大的功能之一就是能在数据检索查询的执行中联结（join）表，联结是利用SQL的SELECT能执行的最重要的操作。通过前面的章节我们知道，分解数据为多个表能更有效地存储及处理数据，且具有更大的可伸缩性（能够适应不断增加的工作量而不失败）。与此对应的代价是常规的单条SELECT语句难以同时对多个表进行检索。而使用联结可以解决这一问题。 　　联结是一种机制，用来在一条SELECT语句中关联">
 
 
 
@@ -140,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://prophetjeff.com/2017/11/20/mysql-6/"/>
+  <link rel="canonical" href="http://prophetjeff.com/2017/11/22/mysql-8/"/>
 
 
 
 
 
-  <title> Mysql学习笔记（六）——数据汇总与分组 | Jeff's Blog </title>
+  <title> Mysql学习笔记（八）——联结表 | Jeff's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -329,7 +329,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/20/mysql-6/">
+    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/22/mysql-8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeff Li">
@@ -350,7 +350,7 @@
             
             
               
-                Mysql学习笔记（六）——数据汇总与分组
+                Mysql学习笔记（八）——联结表
               
             
           </h2>
@@ -365,8 +365,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T17:43:03+08:00">
-                2017-11-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-22T16:09:01+08:00">
+                2017-11-22
               </time>
             
 
@@ -405,7 +405,7 @@
 
           
           
-             <span id="/2017/11/20/mysql-6/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（六）——数据汇总与分组">
+             <span id="/2017/11/22/mysql-8/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（八）——联结表">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -429,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,648
+                  2,661
                 </span>
               
 
@@ -452,69 +452,40 @@
       
 
       
-        <p>本章节介绍利用Mysql对数据进行分类汇总，即对各个指定组别数据进行汇总（包括求和，均值，极值等）。实现分组的的SQL语句为<code>select</code>语句的<code>group by</code>子句和<code>having</code>子句，而数据汇总是利用SQL的聚集函数。<br><a id="more"></a></p>
-<h2 id="1-汇总数据"><a href="#1-汇总数据" class="headerlink" title="1. 汇总数据"></a>1. 汇总数据</h2><p>　　通常，我们并不希望直接将实际数据检索出来而是查看数据的汇总信息，为此Mysql提供了专门的函数。这些函数使Mysql查询可用于检索数据，以便分析和生成数据报表。这类检索分为以下几种类型：</p>
-<ol>
-<li>确定表中的行数（或者满足某个条件或包含某个特定值的函数）；</li>
-<li>获得表中行组的和；</li>
-<li>找出表列（或所有行或某些特定的行）的最大值、最小值和平均值等。</li>
-</ol>
-<p>以上三种类型检索都需要对表中数据汇总而不是检索表数据本身，因此在此种情况下返回原始数据时对资源的浪费。Mysql提供了5个聚集函数（运行在行组上，计算和返回单个值的函数）方便完成数据汇总任务：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">函数</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">AVG()</td>
-<td style="text-align:center">返回某列的平均值</td>
-</tr>
-<tr>
-<td style="text-align:center">COUNT()</td>
-<td style="text-align:center">返回某列的行数</td>
-</tr>
-<tr>
-<td style="text-align:center">MAX()</td>
-<td style="text-align:center">返回某列的最大值</td>
-</tr>
-<tr>
-<td style="text-align:center">MIN()</td>
-<td style="text-align:center">返回某列的最小值</td>
-</tr>
-<tr>
-<td style="text-align:center">SUM()</td>
-<td style="text-align:center">返回某列值之和</td>
-</tr>
-<tr>
-<td style="text-align:center">STD()/STDDEV_SAMP()</td>
-<td style="text-align:center">返回某列的标准差/样本标准差</td>
-</tr>
-<tr>
-<td style="text-align:center">VARIANCE()/VAR_SAMP()</td>
-<td style="text-align:center">返回某列的方差/样本方差</td>
-</tr>
-</tbody>
-</table>
-<p>下面是几个使用聚集函数检索的例子：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">avg</span>(prod_price) <span class="keyword">as</span> avg_price                          #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> vend_id = <span class="number">1003</span>;</div><div class="line">+<span class="comment">-----------+                                                #输出</span></div><div class="line">| avg_price |</div><div class="line">+<span class="comment">-----------+</span></div><div class="line">| 13.212857 |</div><div class="line">+<span class="comment">-----------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>上述语句返回供应商ID为1003的产品价格均值。要注意，AVG()函数只能用来确定特定数值列的平均值，即括号内只能包含一个参数（对应列名，也可以是计算字段，即使用算数操作符连接的多个列），多个列求均值需要给出多个AVG()函数。聚合函数总是忽略值为NULL的行，但<code>count()</code>函数的第二种使用方式<code>count(*)</code>可以对表中各列非空值行进行计数。</p>
-<h3 id="如何只聚集不同的值？"><a href="#如何只聚集不同的值？" class="headerlink" title="如何只聚集不同的值？"></a>如何只聚集不同的值？</h3><p>　　有的时候，或许我们只希望对列中不同的值进行进行汇总。其实，在数据检索那一章节中，我们已经使用<code>distinct</code>关键字实现对列中不同的值进行数据检索，而Mysql在聚集函数中也提供了完全类似的功能，该功能在Mysql 5.0.3版本之后可以正常运行。如下例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">avg</span>(<span class="keyword">distinct</span> prod_price) <span class="keyword">as</span> avg_price                 #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> vend_id = <span class="number">1003</span>;</div><div class="line">+<span class="comment">-----------+                                                #输出</span></div><div class="line">| avg_price |</div><div class="line">+<span class="comment">-----------+</span></div><div class="line">| 15.998000 |</div><div class="line">+<span class="comment">-----------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，聚集函数中<code>distinct</code>关键字必须后接列名，不能用于计算或表达式。与之相对的是<code>all</code>关键字，它是默认情况下的参数，因此无需特别声明。</p>
-<h3 id="组合聚集函数"><a href="#组合聚集函数" class="headerlink" title="组合聚集函数"></a>组合聚集函数</h3><p>　　上述涉及的例子都只适用单个聚集函数，实际上<code>select</code>语句可以根据需要包含多个聚集函数。如下例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">as</span> num_items,                                 #输入</div><div class="line">       <span class="keyword">min</span>(prod_price) <span class="keyword">as</span> price_min,</div><div class="line">       <span class="keyword">max</span>(prod_price) <span class="keyword">as</span> price_max,</div><div class="line">       <span class="keyword">avg</span>(prod_price) <span class="keyword">as</span> price_avg</div><div class="line"><span class="keyword">from</span> products;</div><div class="line">+<span class="comment">-----------+-----------+-----------+-----------+             #输出</span></div><div class="line">| num_items | price_min | price_max | price_avg |</div><div class="line">+<span class="comment">-----------+-----------+-----------+-----------+</span></div><div class="line">|        14 |      2.50 |     55.00 | 16.133571 |</div><div class="line">+<span class="comment">-----------+-----------+-----------+-----------+</span></div><div class="line">1 row in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<h2 id="2-分组数据"><a href="#2-分组数据" class="headerlink" title="2. 分组数据"></a>2. 分组数据</h2><p>　　目前为止，所有的计算都是在表的所有数据或匹配特定的<code>where</code>子句（数据过滤的方式）的数据上进行的。但如果现在我们需要返回每一个供应商的产品数目，那前述的方法就办不到了（当然可以遍历并分别检索，但供应商过多时工作量会非常大）。此时，分组的办法可以讲数据分为多个逻辑组，以便对每个组进行聚集计算。</p>
-<h3 id="2-1-创建分组"><a href="#2-1-创建分组" class="headerlink" title="2.1 创建分组"></a>2.1 创建分组</h3><p>　　分组是在<code>select</code>语句中通过子句<code>group by</code>建立的。首先来看一个例子:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> vend_id, <span class="keyword">count</span>(*) <span class="keyword">as</span> num_prods                         #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> vend_id;</div><div class="line">+<span class="comment">---------+-----------+                                       #输出</span></div><div class="line">| vend_id | num_prods |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">|    1001 |         3 |</div><div class="line">|    1002 |         2 |</div><div class="line">|    1003 |         7 |</div><div class="line">|    1005 |         2 |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>上面的例子指定了两个列，vend_id包含产品供应商的ID，num_prods为计算字段（<code>count(*)</code>）。<code>group by</code>子句指示Mysql按vend_id排序并分组数据，这使得对每个vend_id而不是整个表计算num_prods一次。因为使用了<code>group by</code>子句，就不用指定要计算和聚集的每个组了，系统会自动完成。</p>
-<p>　　注意，<code>group by</code>子句可以包含任意数目的列，这使得能对分组进行嵌套，为数据分组提供更细致的控制。如果使用了嵌套分组，数据将在最后规定的分组上进行汇总。且<code>group by</code>子句中列出的各个列只能是检索列或者有效的表达式，如果在<code>select</code>语句中使用了表达式，则必须在<code>group by</code>子句中指定相同的表达式，不能使用别名。除聚集计算语句之外，<code>select</code>语句中的每个列都必须在<code>group by</code>中子句中给出。如果分组列中有NULL值，其将作为一个组返回（使用<code>with rollup</code>关键字可以显示NULL组）。在语句次序上，<code>group by</code>语句必须在<code>where</code>语句之后<code>order by</code>语句之前。</p>
-<h3 id="2-2-过滤分组"><a href="#2-2-过滤分组" class="headerlink" title="2.2 过滤分组"></a>2.2 过滤分组</h3><p>　　在分组数据时，Mysql还提供过滤分组功能（规定包括哪些分组，排除哪些分组）。实际上在前面数据过滤章节中，我们介绍通过<code>where</code>子句进行行过滤，但是其并不能实现分组过滤。Mysql为达成此任务提供了另外的子句——<code>having</code>子句。其实，之前使用的所有<code>where</code>子句都可以使用<code>having</code>子句来替代（将每行视为一个分组；<code>where</code>子句中的所有操作符同样可在<code>having</code>子句中使用）。下面举个例子：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> vend_id, <span class="keyword">count</span>(*) <span class="keyword">as</span> num_prods                           #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">where</span> prod_price &gt;= <span class="number">10</span></div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> vend_id</div><div class="line"><span class="keyword">having</span> <span class="keyword">count</span>(*) &gt;= <span class="number">2</span>;</div><div class="line">+<span class="comment">---------+-----------+                                         #输出</span></div><div class="line">| vend_id | num_prods |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">|    1003 |         4 |</div><div class="line">|    1005 |         2 |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">2 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>此条语句中，<code>where</code>子句过滤所有prod_price至少为10的行，然后按vend_id进行分组数据，而<code>having</code>子句过滤计数为2或2以上的分组。</p>
-<h3 id="分组和排序的区别"><a href="#分组和排序的区别" class="headerlink" title="分组和排序的区别"></a>分组和排序的区别</h3><p>　　虽然<code>order by</code>和<code>group by</code>常常完成相同的工作，但实际上它们是非常不同的。首先<code>order by</code>可应用于非检索列，而<code>group by</code>不可以；且，<code>group by</code>子句实际只完成分组工作，并不会对分组结果进行排序。所以在有对输出结果顺序需求时，应该始终给出<code>order by</code>子句。</p>
+        <p>　　SQL最强大的功能之一就是能在数据检索查询的执行中联结（join）表，联结是利用SQL的SELECT能执行的最重要的操作。通过前面的章节我们知道，分解数据为多个表能更有效地存储及处理数据，且具有更大的可伸缩性（能够适应不断增加的工作量而不失败）。与此对应的代价是常规的单条SELECT语句难以同时对多个表进行检索。而使用联结可以解决这一问题。</p>
+<p>　　联结是一种机制，用来在一条SELECT语句中关联表。使用特殊的语法，可以联结多个表并返回一组输出。要注意的是，联结并不是实体（即它在实际的数据库表中并不存在），它由Mysql根据需要建立（存在于查询的执行中）。<br><a id="more"></a></p>
+<h3 id="什么是关系表？"><a href="#什么是关系表？" class="headerlink" title="什么是关系表？"></a>什么是关系表？</h3><p>　　在能够有效的使用联结之前，必须了解关系表以及关系数据库设计的一些基础知识。首先来思考一个例子，假如有一个包含产品目录的数据库表，其中每个类别产品各占一行。对于每种产品，要存储的信息包括产品描述、价格和该产品的供应商信息（供应商名、地址、联系电话等）。那么如何合理存储这些信息呢？要注意，往往一个供应商会生产多种产品。我们当然可以将它们存储在一张表中，但这样会带来一些问题：对于同一个供应商生产的产品后接的供应商信息相同，而重复信息耗费空间又耗时；如果供应商信息改变，需要进行多处改动。</p>
+<p>　　因此，将数据进行有效分解并存储是很有必要的，这也是关系数据库设计基础。一类数据一个表，而各个表通过某些常用值（关系(relational)）互相关联。在本例中，可以建立两个表，一个存储产品信息（products表），一个存储供应商信息（vendors表）。vendors表以供应商ID作为主键，而products表除供应商ID之外不存储其他供应商信息。vendors表的主键又叫做products表的外键（供应商ID），它将两表关联，利用供应商ID可以从vendors表中检索出供应商相关信息。</p>
+<ul>
+<li><strong>外键</strong>（foreign key）：外键是某个表中的一列，它包含另一个表的主键值，定义了两个表之间的关系。</li>
+</ul>
+<p>这样做的好处是：供应商信息不重复；如果供应商信息变动，只需更新vendors表中的单个记录，而相关表中的数据不用改动。总之，关系数据可以有效存储和方便处理，它的可伸缩性远比非关系数据库要好。</p>
+<h2 id="1-创建联结"><a href="#1-创建联结" class="headerlink" title="1. 创建联结"></a>1. 创建联结</h2><p>　　首先来看下面这个例子：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> vend_name, prod_name, prod_price                             #输入</div><div class="line"><span class="keyword">from</span> vendors, products</div><div class="line"><span class="keyword">where</span> vendors.vend_id = products.vend_id</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> vend_name, prod_name;</div><div class="line">+<span class="comment">-------------+----------------+------------+                       #输出</span></div><div class="line">| vend_name   | prod_name      | prod_price |</div><div class="line">+<span class="comment">-------------+----------------+------------+</span></div><div class="line">| ACME        | Bird seed      |      10.00 |</div><div class="line">| ACME        | Carrots        |       2.50 |</div><div class="line">| ACME        | Detonator      |      13.00 |</div><div class="line">| ACME        | Safe           |      50.00 |</div><div class="line">| ACME        | Sling          |       4.49 |</div><div class="line">| ACME        | TNT (1 stick)  |       2.50 |</div><div class="line">| ACME        | TNT (5 sticks) |      10.00 |</div><div class="line">| Anvils R Us | .5 ton anvil   |       5.99 |</div><div class="line">| Anvils R Us | 1 ton anvil    |       9.99 |</div><div class="line">| Anvils R Us | 2 ton anvil    |      14.99 |</div><div class="line">| Jet <span class="keyword">Set</span>     | JetPack <span class="number">1000</span>   |      <span class="number">35.00</span> |</div><div class="line">| Jet <span class="keyword">Set</span>     | JetPack <span class="number">2000</span>   |      <span class="number">55.00</span> |</div><div class="line">| LT Supplies | Fuses          |       <span class="number">3.42</span> |</div><div class="line">| LT Supplies | Oil can        |       <span class="number">8.99</span> |</div><div class="line">+<span class="comment">-------------+----------------+------------+</span></div><div class="line"><span class="number">14</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.05</span> sec)</div></pre></td></tr></table></figure>
+<p>上述语句中，<code>select</code>指定了三个列，与以前不同的是它们分别存储在两张表中，而<code>from</code>关键字后也接相应的两张表。<code>where</code>子句则给出了两张表的正确联结，它指示Mysql匹配vendors表中vend_id和products表中的vend_id（通过完全限定列名的方式）。</p>
+<p>　　注意，各位看官或许会对利用<code>where</code>子句建立联结关系感到疑惑。实际上，要知道在一条<code>select</code>语句中联结几个表时，相应的关系是在运行中构造的（在数据库表的定义中不存在能指示Mysql对表进行联结的东西），即必须由我们自己完成。联结表时，实际上是将两个表的相关列进行配对（满足联结条件），类似过滤条件结果只输出满足匹配条件的行。如果不给出<code>where</code>子句，第一个表中每行将与第二个表的每行进行配对，而不管它们逻辑上是否可以配在一起（将返回一个笛卡尔积）。因此，应该保证所有的联结都有<code>where</code>子句及其正确性。</p>
+<h3 id="1-1-内部联结"><a href="#1-1-内部联结" class="headerlink" title="1.1 内部联结"></a>1.1 内部联结</h3><p>　　前述所用联结称为等值联结（equijion），它基于两个表之间的相等测试。这种联结也称为内部联结，它也可以使用稍微不同的语法来明确指定联结的类型。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> vend_name, prod_name, prod_price                          #输入</div><div class="line"><span class="keyword">from</span> vendors <span class="keyword">inner</span> <span class="keyword">join</span> products</div><div class="line"><span class="keyword">on</span> vendors.vend_id = products.vend_id;</div></pre></td></tr></table></figure>
+<p>此语句与前一例语句的输出完全一致，有所不同的是该语句中<code>from</code>子句的内容略有不同。这里，两个表之间的关系是<code>from</code>子句的组成部分，并以<code>inner join</code>指定。且在使用这种语法时，联结条件用特定的<code>on</code>子句而不是<code>where</code>子句给出，传递给ON的实际条件与传递给WHERE的相同（SQL规范首选INNER JOIN语法）。</p>
+<h3 id="1-2-联结多个表"><a href="#1-2-联结多个表" class="headerlink" title="1.2 联结多个表"></a>1.2 联结多个表</h3><p>　　SQL对一条<code>select</code>语句中可以联结的表的数目没有限制。创建联结的基本规则也相同，首先列出所有表，然后定义表之间的关系。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name, vend_name, prod_price, quantity                    #输入</div><div class="line"><span class="keyword">from</span> orderitems, products, vendors</div><div class="line"><span class="keyword">where</span> products.vend_id = vendors.vend_id</div><div class="line"><span class="keyword">and</span> orderitems.prod_id = products.prod_id</div><div class="line"><span class="keyword">and</span> order_num = <span class="number">20005</span>;</div><div class="line">+<span class="comment">----------------+-------------+------------+----------+             #输出</span></div><div class="line">| prod_name      | vend_name   | prod_price | quantity |</div><div class="line">+<span class="comment">----------------+-------------+------------+----------+</span></div><div class="line">| .5 ton anvil   | Anvils R Us |       5.99 |       10 |</div><div class="line">| 1 ton anvil    | Anvils R Us |       9.99 |        3 |</div><div class="line">| TNT (5 sticks) | ACME        |      10.00 |        5 |</div><div class="line">| Bird seed      | ACME        |      10.00 |        1 |</div><div class="line">+<span class="comment">----------------+-------------+------------+----------+</span></div><div class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.05</span> sec)</div></pre></td></tr></table></figure>
+<p>此例子显示编号为20005的订单中的产品。订单物品存储在orderitems表中。每个产品按其产品ID存储，它引用products表中的产品，这些产品通过供应商ID联结到vendors表中相应的供应商，供应商ID存储在每个产品的记录中。这里<code>from</code>子句列出了3个表，而<code>where</code>子句定义了这两个联结条件，而第三个联结条件用来过滤出订单20005中的物品。</p>
+<h2 id="2-创建高级联结"><a href="#2-创建高级联结" class="headerlink" title="2. 创建高级联结"></a>2. 创建高级联结</h2><p>　　除了前面使用的简单联结（内部联结或等值联结）外，还有其他高级联结：自联结、自然联结、外部联结。</p>
+<h3 id="如何使用表别名？"><a href="#如何使用表别名？" class="headerlink" title="如何使用表别名？"></a>如何使用表别名？</h3><p>　　之前我们学过如何使用别名引用被检索的表列，实际上，别名除了用于列名和计算字段外，SQL还允许给表起别名。这样做的好处首先是可以简化SQL语句，其次允许在<code>select</code>语句中多次使用相同的表（见自联结部分）。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name, vend_name, prod_price, quantity                    #输入</div><div class="line"><span class="keyword">from</span> orderitems <span class="keyword">as</span> o, products <span class="keyword">as</span> p, vendors <span class="keyword">as</span> v</div><div class="line"><span class="keyword">where</span> p.vend_id = v.vend_id</div><div class="line"><span class="keyword">and</span> o.prod_id = p.prod_id</div><div class="line"><span class="keyword">and</span> order_num = <span class="number">20005</span>;</div></pre></td></tr></table></figure>
+<p>该例完全复制了前一个例子的语句，只是通过使用表别名对其进行了简化。注意该例中，表别名只用于<code>where</code>子句，事实上，它还可以用于<code>select</code>的列表、<code>order by</code>子句等等。表别名只在查询中使用，与列别名不同，它不返回到客户机。</p>
+<h3 id="2-1-自联结"><a href="#2-1-自联结" class="headerlink" title="2.1 自联结"></a>2.1 自联结</h3><p>　　首先来看一个例子，假如你发现某物品（ID为DTNTR）存在问题，此时你想知道生产该物品的供应商的其他产品是否也存在问题。要完成这个任务，第一种方法是首先找到生产该物品的供应商，然后再检索出这个供应商生产的其他产品（使用子查询）。第二种方法是使用自联结，如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> p1.prod_id, p1.prod_name                                      #输入</div><div class="line"><span class="keyword">from</span> products <span class="keyword">as</span> p1, products <span class="keyword">as</span> p2</div><div class="line"><span class="keyword">where</span> p1.vend_id = p2.vend_id</div><div class="line"><span class="keyword">and</span> p2.prod_id = <span class="string">'DTNTR'</span>;</div><div class="line">+<span class="comment">---------+----------------+                                         #输出</span></div><div class="line">| prod_id | prod_name      |</div><div class="line">+<span class="comment">---------+----------------+</span></div><div class="line">| DTNTR   | Detonator      |</div><div class="line">| FB      | Bird seed      |</div><div class="line">| FC      | Carrots        |</div><div class="line">| SAFE    | Safe           |</div><div class="line">| SLING   | Sling          |</div><div class="line">| TNT1    | TNT (1 stick)  |</div><div class="line">| TNT2    | TNT (5 sticks) |</div><div class="line">+<span class="comment">---------+----------------+</span></div><div class="line">7 rows in <span class="keyword">set</span> (<span class="number">0.04</span> sec)</div></pre></td></tr></table></figure>
+<p>此查询中需要的两个表是相同的表，因此在<code>from</code>子句后出现两次，这是合法的，但对products的引用具有二义性。使用表别名可以解决这一问题。</p>
+<h3 id="2-2-自然联结"><a href="#2-2-自然联结" class="headerlink" title="2.2 自然联结"></a>2.2 自然联结</h3><p>　　无论何时对表进行联结，应该至少有一个列出现在不止一张表中（被联结的列）。简单的联结返回所有数据，甚至相同的列多次出现。而自然联结排除多次出现，使每个列只返回一次。这一般通过对表使用通配符，对其他表的列使用明确子集来完成。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> c.*, o.order_num, o.order_date,                               #输入</div><div class="line">       oi.prod_id, oi.quantity, oi.item_price</div><div class="line"><span class="keyword">from</span> customers <span class="keyword">as</span> c, orders <span class="keyword">as</span> o, orderitems <span class="keyword">as</span> oi</div><div class="line"><span class="keyword">where</span> c.cust_id = o.cust_id</div><div class="line"><span class="keyword">and</span> oi.order_num = o.order_num</div><div class="line"><span class="keyword">and</span> prod_id = <span class="string">'FB'</span>;</div></pre></td></tr></table></figure>
+<p>事实上，我们之前所建立的每个内部联结都是自然联结。</p>
+<h3 id="2-3-外部联结"><a href="#2-3-外部联结" class="headerlink" title="2.3 外部联结"></a>2.3 外部联结</h3><p>　　许多联结将一个表中的行与另一个表中的行相关联。但有的行时没有对应的关联行的，我们有时候也希望将这些行包含在我们的查询中。例如，列出所有产品及其订购数量，包括没有人订购的产品。这类工作也需要通过连接来完成，这种类型的联结称之为外部联结。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> customers.cust_id, orders.order_num                           #输入</div><div class="line"><span class="keyword">from</span> customers <span class="keyword">left</span> <span class="keyword">outer</span> <span class="keyword">join</span> orders</div><div class="line"><span class="keyword">on</span> customers.cust_id = orders.cust_id;</div><div class="line">+<span class="comment">---------+-----------+                                              #输出</span></div><div class="line">| cust_id | order_num |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">|   10001 |     20005 |</div><div class="line">|   10001 |     20009 |</div><div class="line">|   10002 |      NULL |</div><div class="line">|   10003 |     20006 |</div><div class="line">|   10004 |     20007 |</div><div class="line">|   10005 |     20008 |</div><div class="line">|   10006 |      NULL |</div><div class="line">|   10007 |      NULL |</div><div class="line">+<span class="comment">---------+-----------+</span></div><div class="line">8 rows in <span class="keyword">set</span> (<span class="number">0.01</span> sec)</div></pre></td></tr></table></figure>
+<p>上述语句使用了<code>outer join</code>来指定联结类型。与内部联结不同的是，外部联结还包括没有对应关联行的行，因此需要通过<code>left</code>或者<code>right</code>关键字指定需要包括其所有行的表（<code>right</code>指出右边的表，而<code>left</code>指出左边的表）。</p>
+<h3 id="2-4-使用带聚集函数的联结"><a href="#2-4-使用带聚集函数的联结" class="headerlink" title="2.4 使用带聚集函数的联结"></a>2.4 使用带聚集函数的联结</h3><p>　　在学习聚集函数时，我们知道它可以用来汇总数据。但之前所有的例子都是从单个表汇总，事实上它们也可以与联结一起使用。比如，需要检索所有客户及每个客户所下订单数：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> customers.cust_name, customers.cust_id,                       #输入</div><div class="line">       <span class="keyword">count</span>(orders.order_num) <span class="keyword">as</span> num_ord</div><div class="line"><span class="keyword">from</span> customers <span class="keyword">inner</span> <span class="keyword">join</span> orders</div><div class="line"><span class="keyword">on</span> customers.cust_id = orders.cust_id</div><div class="line"><span class="keyword">group</span> <span class="keyword">by</span> customers.cust_id;</div><div class="line">+<span class="comment">----------------+---------+---------+                               #输出</span></div><div class="line">| cust_name      | cust_id | num_ord |</div><div class="line">+<span class="comment">----------------+---------+---------+</span></div><div class="line">| Coyote Inc.    |   10001 |       2 |</div><div class="line">| Wascals        |   10003 |       1 |</div><div class="line">| Yosemite Place |   10004 |       1 |</div><div class="line">| E Fudd         |   10005 |       1 |</div><div class="line">+<span class="comment">----------------+---------+---------+</span></div><div class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
+<p>此<code>select</code>语句使用<code>inner join</code>将customers和orders表互相联结。<code>group by</code>按客户分组数据。因此，函数调用<code>count(orders.order_num)</code>对每个订单计数。</p>
 
       
     </div>
@@ -557,8 +528,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/17/mysql-5/" rel="next" title="Mysql学习笔记（五）——计算字段与函数">
-                <i class="fa fa-chevron-left"></i> Mysql学习笔记（五）——计算字段与函数
+              <a href="/2017/11/21/mysql-7/" rel="next" title="Mysql学习笔记（七）——子查询与组合查询">
+                <i class="fa fa-chevron-left"></i> Mysql学习笔记（七）——子查询与组合查询
               </a>
             
           </div>
@@ -566,10 +537,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/21/mysql-7/" rel="prev" title="Mysql学习笔记（七）——子查询与组合查询">
-                Mysql学习笔记（七）——子查询与组合查询 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
