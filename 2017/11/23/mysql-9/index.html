@@ -101,18 +101,18 @@
 
 
 
-<meta name="description" content="前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。">
+<meta name="description" content="SQL除最常用的select语句(检索)外，还有三个经常使用SQL语句：insert（插入）、update（更新）和delete（删除）。它们的作用是操纵数据库表数据，而与select语句不同的是这些语句在使用时有一定的危险性，通常都需要对它们进行一定的限制，以保证数据的安全。">
 <meta name="keywords" content="Mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql学习笔记（二）——连接服务器">
-<meta property="og:url" content="http://prophetjeff.com/2017/11/14/mysql-2/index.html">
+<meta property="og:title" content="Mysql学习笔记（九）——插入、更新和删除数据">
+<meta property="og:url" content="http://prophetjeff.com/2017/11/23/mysql-9/index.html">
 <meta property="og:site_name" content="Jeff&#39;s Blog">
-<meta property="og:description" content="前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。">
+<meta property="og:description" content="SQL除最常用的select语句(检索)外，还有三个经常使用SQL语句：insert（插入）、update（更新）和delete（删除）。它们的作用是操纵数据库表数据，而与select语句不同的是这些语句在使用时有一定的危险性，通常都需要对它们进行一定的限制，以保证数据的安全。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-14T10:05:32.567Z">
+<meta property="og:updated_time" content="2017-11-23T08:47:55.067Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql学习笔记（二）——连接服务器">
-<meta name="twitter:description" content="前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。">
+<meta name="twitter:title" content="Mysql学习笔记（九）——插入、更新和删除数据">
+<meta name="twitter:description" content="SQL除最常用的select语句(检索)外，还有三个经常使用SQL语句：insert（插入）、update（更新）和delete（删除）。它们的作用是操纵数据库表数据，而与select语句不同的是这些语句在使用时有一定的危险性，通常都需要对它们进行一定的限制，以保证数据的安全。">
 
 
 
@@ -140,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://prophetjeff.com/2017/11/14/mysql-2/"/>
+  <link rel="canonical" href="http://prophetjeff.com/2017/11/23/mysql-9/"/>
 
 
 
 
 
-  <title> Mysql学习笔记（二）——连接服务器 | Jeff's Blog </title>
+  <title> Mysql学习笔记（九）——插入、更新和删除数据 | Jeff's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -329,7 +329,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/14/mysql-2/">
+    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/23/mysql-9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeff Li">
@@ -350,7 +350,7 @@
             
             
               
-                Mysql学习笔记（二）——连接服务器
+                Mysql学习笔记（九）——插入、更新和删除数据
               
             
           </h2>
@@ -365,8 +365,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-14T16:10:00+08:00">
-                2017-11-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-23T16:47:38+08:00">
+                2017-11-23
               </time>
             
 
@@ -405,7 +405,7 @@
 
           
           
-             <span id="/2017/11/14/mysql-2/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（二）——连接服务器">
+             <span id="/2017/11/23/mysql-9/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（九）——插入、更新和删除数据">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -429,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  921
+                  1,801
                 </span>
               
 
@@ -452,29 +452,39 @@
       
 
       
-        <p>　　前一章节介绍了数据库基本概念，在有可使用的服务器和客户机软件之后，连接到数据库是执行后续操作的首要步骤。所有的图形化客户机软件都提供服务器连接窗口，本小白使用的是最原始的Mysql命令行实用程序，后续展现的代码也是基于该客户机工具。<br><a id="more"></a></p>
-<h4 id="服务器连接"><a href="#服务器连接" class="headerlink" title="服务器连接"></a>服务器连接</h4><p>要连接到服务器需要知道其四个基本信息：主机名，端口，用户名以及口令。</p>
+        <p>　　SQL除最常用的<code>select</code>语句(检索)外，还有三个经常使用SQL语句：<code>insert</code>（插入）、<code>update</code>（更新）和<code>delete</code>（删除）。它们的作用是操纵数据库表数据，而与<code>select</code>语句不同的是这些语句在使用时有一定的危险性，通常都需要对它们进行一定的限制，以保证数据的安全。<br><a id="more"></a></p>
+<h2 id="1-插入数据"><a href="#1-插入数据" class="headerlink" title="1. 插入数据"></a>1. 插入数据</h2><p>　　顾名思义，<code>insert</code>是用来插入行到数据库表的。插入可以用以下几种方式使用：</p>
 <ul>
-<li><strong>主机名</strong>：也是计算机名，如果连接的是本地Mysql服务器则为localhost。</li>
-<li><strong>端口</strong>：如果使用默认端口3306之外的端口需要提供其端口号。（在网络上，各主机通过TCP/IP协议进行数据交互，而主机上有多程序同时运行，要将数据准确传输到某个特定的程序就需要引入端口机制将各个程序与特定端口号对应，进而实现针对到程序间的数据交互。）</li>
-<li><strong>用户名</strong></li>
-<li><strong>用户名口令</strong>：就是对应的密码。</li>
+<li>插入完整的行；</li>
+<li>插入行的一部分；</li>
+<li>插入多行；</li>
+<li>插入某些查询的结果。</li>
 </ul>
-<p>在命令提示符下输入:</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -h localhost -u root -p *** -P 3306 #-h后跟主机名 -u后跟用户名 -p后跟口令 -P后跟端口号</div></pre></td></tr></table></figure>
-<p>输入完成后会出现如下一个简单提示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 3</div><div class="line">Server version: 5.7.19-log MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line"></div><div class="line">Type &apos;help;&apos; or &apos;\h&apos; for help. Type &apos;\c&apos; to clear the current input statement.</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
-<p>注意，如果连接本地服务器出现错误，请检查本地Mysql服务是否开启，或许需要手动开启服务。后续命令输入在<code>mysql&gt;</code>之后，命令用<code>；</code>结束，输入<code>quit</code>或<code>exit</code>退出Mysql命令行实用程序。</p>
-<h4 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h4><p>　　要知道，在最初连接到Mysql时，没有任何数据库打开供你使用，你需要选择一个数据库进而执行其他数据库操作。如果你不知道可以使用的数据库名，可以使用<code>show</code>关键字来显示数据库信息。下面是一个简单的例子：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">show databases;          #输入</div><div class="line">+<span class="comment">--------------------+   #输出</span></div><div class="line">| Database           |</div><div class="line">+<span class="comment">--------------------+</span></div><div class="line">| information_schema |</div><div class="line">| cda1               |</div><div class="line">| crashcourse        |</div><div class="line">| mysql              |</div><div class="line">| performance_schema |</div><div class="line">| sys                |</div><div class="line">+<span class="comment">--------------------+</span></div><div class="line">6 rows in <span class="keyword">set</span> (<span class="number">0.04</span> sec)</div></pre></td></tr></table></figure>
-<p>此处返回一个数据库列表，列表中是Mysql内部可能使用的数据库。下一步选择你想进入的数据库，如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">use crashcourse;        #输入</div><div class="line">Database changed        #输出</div></pre></td></tr></table></figure>
-<p>注意，<code>use</code>语句不返回任何结果，依赖于使用的客户机软件，显示某种形式的通知。必须先使用<code>use</code>语句打开数据库才能读取其中的数据。</p>
-<h4 id="关于show语句"><a href="#关于show语句" class="headerlink" title="关于show语句"></a>关于show语句</h4><p>　　更多的<code>show</code>语句可以在Mysql命令行实用程序中，执行<code>help show;</code>进行查看，此处列出两个常用<code>show</code>语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">show tables;                  #输入</div><div class="line">+<span class="comment">-----------------------+     #输出</span></div><div class="line">| Tables_in_crashcourse |</div><div class="line">+<span class="comment">-----------------------+</span></div><div class="line">| customers             |</div><div class="line">| orderitems            |</div><div class="line">| orders                |</div><div class="line">| productnotes          |</div><div class="line">| products              |</div><div class="line">| vendors               |</div><div class="line">+<span class="comment">-----------------------+</span></div><div class="line">6 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，<code>show tables;</code>返回正在使用的数据库内的表的列表。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">show columns from products;                                    #输入</div><div class="line">+<span class="comment">------------+--------------+------+-----+---------+-------+   #输出</span></div><div class="line">| Field      | Type         | Null | Key | Default | Extra |</div><div class="line">+<span class="comment">------------+--------------+------+-----+---------+-------+</span></div><div class="line">| prod_id    | char(10)     | NO   | PRI | NULL    |       |</div><div class="line">| vend_id    | int(11)      | NO   | MUL | NULL    |       |</div><div class="line">| prod_name  | char(255)    | NO   |     | NULL    |       |</div><div class="line">| prod_price | decimal(8,2) | NO   |     | NULL    |       |</div><div class="line">| prod_desc  | text         | YES  |     | NULL    |       |</div><div class="line">+<span class="comment">------------+--------------+------+-----+---------+-------+</span></div><div class="line">5 rows in <span class="keyword">set</span> (<span class="number">0.12</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，<code>show columns</code>语句要求指定一个数据库内的表名，此例中使用的是products表，它对每个表中的每个字段返回一行（包含了各行数据类型，允许空值与否，主外键，默认值及额外信息）。<code>show columns</code>还有一种快捷方式，使用<code>describe products</code>会返回如上相同的结果。</p>
+<p>从数据安全方面考虑，可针对每个表或每个用户，利用Mysql的安全机制（后续介绍）禁止使用<code>insert</code>语句。</p>
+<h3 id="1-1-插入完整的行"><a href="#1-1-插入完整的行" class="headerlink" title="1.1 插入完整的行"></a>1.1 插入完整的行</h3><p>　　把数据插入表中的最简单方法是使用基本的INSERT语法，它要求指定表名和被插入到新行中的值。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> customers(cust_name,                                #输入</div><div class="line">cust_address,</div><div class="line">cust_city,</div><div class="line">cust_state,</div><div class="line">cust_zip,</div><div class="line">cust_country,</div><div class="line">cust_contact,</div><div class="line">cust_email)</div><div class="line"><span class="keyword">values</span>(<span class="string">'Pep E. LawPew'</span>,</div><div class="line"><span class="string">'100 Main Street'</span>,</div><div class="line"><span class="string">'Los Angeles'</span>,</div><div class="line"><span class="string">'CA'</span>,</div><div class="line"><span class="string">'90046'</span>,</div><div class="line"><span class="string">'USA'</span></div><div class="line"><span class="literal">NULL</span>,</div><div class="line"><span class="literal">NULL</span>);</div></pre></td></tr></table></figure>
+<p>注意，此例插入一个新客户到customers表，存储到每个表列中的数据在<code>values</code>子句中给出。每个列必须提供一个值，如果某个列没有值，必须使用NULL值（在对应列允许使用空值的条件下）。在插入行时，Mysql将用<code>values</code>列表中相应的值填入列表中的对应项（不一定是实际表列的顺序但要按照<code>values</code>前指定的顺序）。其次，由于cust_id列由于在创建表时指定为自动增量，因此不必给出它对应的新值（这是Mysql的工作）。<code>insert</code>语句一般不会产生输出。</p>
+<p>　　如果表的定义允许，则可以在<code>insert</code>操作中省略某些列（如该例中的cust_id）。省略的列必须满足以下某个条件。</p>
+<ul>
+<li>该列定义为允许NULL值（空值）；</li>
+<li>在表定义中给出默认值。这表示如果不给出值，将使用默认值（自动增量也属于该类）。</li>
+</ul>
+<p>若在不满足上述两种条件的情况下，使用<code>values</code>语句时省略该列，则Mysql将产生一条错误信息，并且相应的行插入不成功。</p>
+<h3 id="1-2-插入多个行"><a href="#1-2-插入多个行" class="headerlink" title="1.2 插入多个行"></a>1.2 插入多个行</h3><p>　　当然可以使用多条<code>insert</code>语句，但如果每条<code>insert</code>语句中的列名和次序相同，可以如下组合语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> customers(cust_name,                                #输入</div><div class="line">cust_address,</div><div class="line">cust_city,</div><div class="line">cust_state,</div><div class="line">cust_zip,</div><div class="line">cust_country,</div><div class="line">)</div><div class="line"><span class="keyword">values</span>(</div><div class="line">       <span class="string">'Pep E. LawPew'</span>,</div><div class="line">       <span class="string">'100 Main Street'</span>,</div><div class="line">       <span class="string">'Los Angeles'</span>,</div><div class="line">       <span class="string">'CA'</span>,</div><div class="line">       <span class="string">'90046'</span>,</div><div class="line">       <span class="string">'USA'</span></div><div class="line">       ),</div><div class="line">      (</div><div class="line">       <span class="string">'M. Martian'</span>,</div><div class="line">       <span class="string">'42 Galaxy Way'</span>,</div><div class="line">       <span class="string">'New York'</span>,</div><div class="line">       <span class="string">'NY'</span>,</div><div class="line">       <span class="string">'11213'</span>,</div><div class="line">       <span class="string">'USA'</span></div><div class="line">       );</div><div class="line">``` </div><div class="line"></div><div class="line">其中单条<span class="keyword">INSERT</span>语句有多组值，每组值用一对圆括号括起来并用逗号分隔。此语句可以提高数据库处理的性能，因为Mysql用单条<span class="string">`insert`</span>语句处理多个插入要比使用多条<span class="string">`insert`</span>语句快。</div><div class="line"></div><div class="line">### <span class="number">1.3</span> 插入检索出的数据</div><div class="line"></div><div class="line">　　<span class="keyword">INSERT</span>一般用来给表插入一个指定列值的行。但是，<span class="keyword">INSERT</span>还是存在另一种形式，可以利用它将一条<span class="string">`select`</span>语句的结果插入表中。这就是<span class="keyword">INSERT</span> <span class="keyword">SELECT</span>，顾名思义，它是由一条<span class="string">`insert`</span>语句和一条<span class="string">`select`</span>语句组成的。假如现在想从custnew表中合并客户到你的customers表，可以按如下操作进行：</div><div class="line"></div><div class="line"><span class="string">``</span><span class="string">`sql</span></div><div class="line"><span class="string">insert into customers(cust_id,                                #输入</span></div><div class="line"><span class="string">cust_name,</span></div><div class="line"><span class="string">cust_address,</span></div><div class="line"><span class="string">cust_city,</span></div><div class="line"><span class="string">cust_state,</span></div><div class="line"><span class="string">cust_zip,</span></div><div class="line"><span class="string">cust_country,</span></div><div class="line"><span class="string">cust_contact,</span></div><div class="line"><span class="string">cust_email)</span></div><div class="line"><span class="string">select cust_id,</span></div><div class="line"><span class="string">cust_name,</span></div><div class="line"><span class="string">cust_address,</span></div><div class="line"><span class="string">cust_city,</span></div><div class="line"><span class="string">cust_state,</span></div><div class="line"><span class="string">cust_zip,</span></div><div class="line"><span class="string">cust_country,</span></div><div class="line"><span class="string">cust_contact,</span></div><div class="line"><span class="string">cust_email</span></div><div class="line"><span class="string">from custnew;</span></div></pre></td></tr></table></figure>
+<p>此例中，<code>select</code>语句从custnew中检索出要插入的值，而不是列出它们。<code>select</code>列出的每个列对应于customers表名后所跟列表中的每个列。这条语句依赖于custnew表中有多少行，如果这个表为空，则没有行被插入（不会产生错误，因为操作依然是合法的）。注意，这个例子中导入了cust_id（假设你能确保cust_id的值不会重复，如果主键值重复，<code>insert</code>操作会失败）。当然也可以简单省略这列，这样Mysql会根据自动增量生产新值。</p>
+<p>　　注意，该语句并不要求列名匹配（虽然在此例中使用了相同的列名），事实上Mysql并不关心<code>select</code>返回的列名，它使用的是列的位置（即<code>select</code>的第n列用来填充<code>insert</code>指定列表中的第n列）。其次,INSERT SELECT中的<code>select</code>语句也可以使用<code>where</code>子句过滤要插入的数据。</p>
+<h2 id="2-更新和删除数据"><a href="#2-更新和删除数据" class="headerlink" title="2. 更新和删除数据"></a>2. 更新和删除数据</h2><h3 id="2-1-更新数据"><a href="#2-1-更新数据" class="headerlink" title="2.1 更新数据"></a>2.1 更新数据</h3><p>　　要更新（修改）表中的数据，可使用<code>update</code>语句。可采用两种方式使用该语句：更新表中特定的行；更新表中所有的行。<code>update</code>语句由三部分组成，分别是：要更新的表、列名和它们的新值、确定要更新行的过滤条件。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">update</span> customers                                                #输入</div><div class="line"><span class="keyword">set</span> cust_name = <span class="string">'The Fudds'</span>,</div><div class="line">    cust_email = <span class="string">'elmer@fudd.com'</span></div><div class="line"><span class="keyword">where</span> cust_id = <span class="number">10005</span>;</div></pre></td></tr></table></figure>
+<p>该例更新了客户10005的客户名和电子邮件地址。<code>update</code>语句总是以要更新的表的名字开始，此例中要更新的表的名字为custmoers。<code>set</code>命令用来将新值赋给被更新的列（如该例，更新多个列只需使用单个<code>set</code>命令，用逗号分隔），<code>update</code>语句以<code>where</code>子句结束，它告诉Mysql更新哪一行（应该总是给出<code>where</code>子句，否则Mysql将用此新值更新所有行）。注意，<code>update</code>语句可以使用子查询。为了删除某行中一列的值，可设置它为NULL。</p>
+<p>　　如果使用<code>update</code>语句更新多行，并且在更新这些行中的某行时发生错误，则整个操作将被取消，错误发生前更新的所有行业恢复到原来的值。如果想在发生错误时保持继续更新，可以使用<code>ignore</code>关键字，如<code>update ignore customers...</code>。</p>
+<h3 id="2-2-删除数据"><a href="#2-2-删除数据" class="headerlink" title="2.2 删除数据"></a>2.2 删除数据</h3><p>　　要删除一个表中的数据，可以使用<code>delete</code>语句。可以用两种方式使用该语句：从表中删除特定的行；从表中删除所有的行。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">delete</span> <span class="keyword">from</span> customers                                           #输入</div><div class="line"><span class="keyword">where</span> cust_id = <span class="number">10006</span>;</div></pre></td></tr></table></figure>
+<p>上述语句中，<code>delete from</code>要求指定从中删除数据的表名，<code>where</code>子句过滤要删除的行（如果省略<code>where</code>子句将删除表中所有的行）。注意，<code>delete</code>语句不需要列名和通配符，它删除整行而不是整列，要删除整列需要使用<code>update</code>语句。其次,注意<code>delete</code>语句的作用是删除表中的数据而不是删除表本身。</p>
+<ul>
+<li>如果想删除表中的所有行，<code>truncate table</code>语句也可以完成相同的工作，且它比<code>delete</code>语句速度更快（因为它通过删除原来的表并重建一个表来完成，不需要逐行删除表中数据）。</li>
+</ul>
+<p>　　注意，在对更新和删除语句使用<code>where</code>子句之前，可以先用<code>select</code>语句进行测试以确保过滤的记录正确。使用强制实施引用完成性（它通过在表定义时指定主键和外键来实现，后续学习中会涉及到）的数据库，这样Mysql将不允许删除具有与其他表相关联的数据的行。其次，Mysql中没有撤销按钮，应该非常小心使用<code>update</code>和<code>delete</code>。</p>
 
       
     </div>
@@ -517,8 +527,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/13/mysql-1/" rel="next" title="Mysql学习笔记（一）——数据库基础概念">
-                <i class="fa fa-chevron-left"></i> Mysql学习笔记（一）——数据库基础概念
+              <a href="/2017/11/22/mysql-8/" rel="next" title="Mysql学习笔记（八）——联结表">
+                <i class="fa fa-chevron-left"></i> Mysql学习笔记（八）——联结表
               </a>
             
           </div>
@@ -526,10 +536,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/15/mysql-3/" rel="prev" title="Mysql学习笔记（三）——数据检索与排序">
-                Mysql学习笔记（三）——数据检索与排序 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
