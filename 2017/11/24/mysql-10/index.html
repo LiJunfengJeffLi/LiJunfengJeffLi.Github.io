@@ -109,7 +109,7 @@
 <meta property="og:site_name" content="Jeff&#39;s Blog">
 <meta property="og:description" content="本章节介绍表的创建、更改和删除的基本知识。Mysql不仅用于表数据操纵，而且还可以用来执行数据库和表的所有操作，包括表本身的创建和处理。一般有两种创建表的方法：一种是使用具有交互式创建和管理表的工具（例如Workbench一类的客户机软件）；另一种是直接用Mysql语句操纵（为了创建表可使用SQL的create table工具）。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-24T08:52:26.371Z">
+<meta property="og:updated_time" content="2017-11-24T09:00:12.510Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql学习笔记（十）——创建和操纵表">
 <meta name="twitter:description" content="本章节介绍表的创建、更改和删除的基本知识。Mysql不仅用于表数据操纵，而且还可以用来执行数据库和表的所有操作，包括表本身的创建和处理。一般有两种创建表的方法：一种是使用具有交互式创建和管理表的工具（例如Workbench一类的客户机软件）；另一种是直接用Mysql语句操纵（为了创建表可使用SQL的create table工具）。">
@@ -429,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,849
+                  1,850
                 </span>
               
 
@@ -478,7 +478,8 @@
 <li>MyISAM：一个性能极高的引擎，它支持全文本搜索，但不支持事物处理。</li>
 <li>MEMORY：在功能上等同于MyISAM，但由于数据存储在内存中，速度很快（适合于临时表）。</li>
 </ul>
-<p>引擎类型可以混用。但要注意，外键不能跨引擎，即使用一个引擎的表不能引用具有使用不同引擎表的外键。Mysql所支持引擎的完整列表（及它们之间的不同），请参阅<a href="http://dev.mysql.com/doc/refman/5.0/en/storage_engines.html" target="_blank" rel="external">http://dev.mysql.com/doc/refman/5.0/en/storage_engines.html</a>。</p>
+<p>引擎类型可以混用。但要注意，外键不能跨引擎，即使用一个引擎的表不能引用具有使用不同引擎表的外键。Mysql所支持引擎的完整列表（及它们之间的不同），请参阅：</p>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/storage-engines.html" target="_blank" rel="external">https://dev.mysql.com/doc/refman/5.7/en/storage-engines.html</a></p>
 <h2 id="2-更新和删除表"><a href="#2-更新和删除表" class="headerlink" title="2. 更新和删除表"></a>2. 更新和删除表</h2><p>　　为更新表定义，可以使用<code>alter table</code>语句。但在理想状态下，当表中存储数据以后，该表就不应该再被更新（在表的设计过程中需要花费大量时间来考虑，以便后期不对该表进行大的改动）。为了使用<code>alter table</code>更改表结构，必须给两种信息：一是表名；二是所作出的更改。如下例：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> vendors      #给vendors表添加一个名为vend_phone的列，必须明确其数据类型</div><div class="line"><span class="keyword">add</span> vend_phone <span class="built_in">char</span>(<span class="number">20</span>);</div></pre></td></tr></table></figure>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> vendors      #删除刚刚添加的列</div><div class="line"><span class="keyword">drop</span> <span class="keyword">column</span> vend_phone;</div></pre></td></tr></table></figure>
