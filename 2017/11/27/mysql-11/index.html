@@ -101,18 +101,18 @@
 
 
 
-<meta name="description" content="本节介绍数据的检索与排序，此操作将由select语句及其子句order by分别实现。要知道，SQL语句是由简单的英语单词构成，如select，create这些单词在SQL语言中被称为关键字。接触过SQL语言的小伙伴应该知道select基本算是最常使用的SQL关键字了，它几乎就是SQL的象征，下面是select的表演时间。">
+<meta name="description" content="本章节介绍视图和存储过程以及它们的使用方法，适用于Mysql 5及以后的版本。视图是虚拟的表，它只包含使用时动态检索数据的查询（即视图包含的是一个SQL查询而非数据）。视图提供了一种Mysql的select语句层次的封装，可用来简化数据处理以及重新格式化基础数据或保护基础数据。存储过程，简单来说就是为了以后使用而保存一条或多条Mysql语句的集合，可将其视为批文件（其作用不仅限于此）。">
 <meta name="keywords" content="Mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql学习笔记（三）——数据检索与排序">
-<meta property="og:url" content="http://prophetjeff.com/2017/11/15/mysql-3/index.html">
+<meta property="og:title" content="Mysql学习笔记（十一）——视图和存储过程">
+<meta property="og:url" content="http://prophetjeff.com/2017/11/27/mysql-11/index.html">
 <meta property="og:site_name" content="Jeff&#39;s Blog">
-<meta property="og:description" content="本节介绍数据的检索与排序，此操作将由select语句及其子句order by分别实现。要知道，SQL语句是由简单的英语单词构成，如select，create这些单词在SQL语言中被称为关键字。接触过SQL语言的小伙伴应该知道select基本算是最常使用的SQL关键字了，它几乎就是SQL的象征，下面是select的表演时间。">
+<meta property="og:description" content="本章节介绍视图和存储过程以及它们的使用方法，适用于Mysql 5及以后的版本。视图是虚拟的表，它只包含使用时动态检索数据的查询（即视图包含的是一个SQL查询而非数据）。视图提供了一种Mysql的select语句层次的封装，可用来简化数据处理以及重新格式化基础数据或保护基础数据。存储过程，简单来说就是为了以后使用而保存一条或多条Mysql语句的集合，可将其视为批文件（其作用不仅限于此）。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-15T07:27:53.884Z">
+<meta property="og:updated_time" content="2017-11-28T06:53:52.029Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql学习笔记（三）——数据检索与排序">
-<meta name="twitter:description" content="本节介绍数据的检索与排序，此操作将由select语句及其子句order by分别实现。要知道，SQL语句是由简单的英语单词构成，如select，create这些单词在SQL语言中被称为关键字。接触过SQL语言的小伙伴应该知道select基本算是最常使用的SQL关键字了，它几乎就是SQL的象征，下面是select的表演时间。">
+<meta name="twitter:title" content="Mysql学习笔记（十一）——视图和存储过程">
+<meta name="twitter:description" content="本章节介绍视图和存储过程以及它们的使用方法，适用于Mysql 5及以后的版本。视图是虚拟的表，它只包含使用时动态检索数据的查询（即视图包含的是一个SQL查询而非数据）。视图提供了一种Mysql的select语句层次的封装，可用来简化数据处理以及重新格式化基础数据或保护基础数据。存储过程，简单来说就是为了以后使用而保存一条或多条Mysql语句的集合，可将其视为批文件（其作用不仅限于此）。">
 
 
 
@@ -140,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://prophetjeff.com/2017/11/15/mysql-3/"/>
+  <link rel="canonical" href="http://prophetjeff.com/2017/11/27/mysql-11/"/>
 
 
 
 
 
-  <title> Mysql学习笔记（三）——数据检索与排序 | Jeff's Blog </title>
+  <title> Mysql学习笔记（十一）——视图和存储过程 | Jeff's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -329,7 +329,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/15/mysql-3/">
+    <link itemprop="mainEntityOfPage" href="http://prophetjeff.com/2017/11/27/mysql-11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jeff Li">
@@ -350,7 +350,7 @@
             
             
               
-                Mysql学习笔记（三）——数据检索与排序
+                Mysql学习笔记（十一）——视图和存储过程
               
             
           </h2>
@@ -365,8 +365,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T15:10:00+08:00">
-                2017-11-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-27T14:53:31+08:00">
+                2017-11-27
               </time>
             
 
@@ -405,7 +405,7 @@
 
           
           
-             <span id="/2017/11/15/mysql-3/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（三）——数据检索与排序">
+             <span id="/2017/11/27/mysql-11/" class="leancloud_visitors" data-flag-title="Mysql学习笔记（十一）——视图和存储过程">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -429,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  2,205
+                  2,742
                 </span>
               
 
@@ -452,39 +452,56 @@
       
 
       
-        <p>　　本节介绍数据的检索与排序，此操作将由<code>select</code>语句及其子句<code>order by</code>分别实现。要知道，SQL语句是由简单的英语单词构成，如<code>select</code>，<code>create</code>这些单词在SQL语言中被称为关键字。接触过SQL语言的小伙伴应该知道<code>select</code>基本算是最常使用的SQL关键字了，它几乎就是SQL的象征，下面是<code>select</code>的表演时间。<br><a id="more"></a></p>
-<h2 id="1-检索数据"><a href="#1-检索数据" class="headerlink" title="1. 检索数据"></a>1. 检索数据</h2><p>　　首先，<code>select</code>语句的用途是从一个或多个表中检索信息，而要使用其来检索表数据至少需要给出两条信息：一是想检索的是什么，二是从什么地方进行检索（比如你要检索的信息来自哪张表）。</p>
-<h4 id="1-1-检索单个列"><a href="#1-1-检索单个列" class="headerlink" title="1.1 检索单个列"></a>1.1 检索单个列</h4><p>　　比如，想从产品表（products）中检索产品名对应的列（prod_name）,需要<code>select</code>语句后接列名，并使用<code>from</code>关键字指出存放该数据的表。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name     #输入</div><div class="line"><span class="keyword">from</span> products;    </div><div class="line">+<span class="comment">----------------+   #输出</span></div><div class="line">| prod_name      |</div><div class="line">+<span class="comment">----------------+</span></div><div class="line">| .5 ton anvil   |</div><div class="line">| 1 ton anvil    |</div><div class="line">| 2 ton anvil    |</div><div class="line">| Detonator      |</div><div class="line">| Bird seed      |</div><div class="line">| Carrots        |</div><div class="line">| Fuses          |</div><div class="line">| JetPack 1000   |</div><div class="line">| JetPack 2000   |</div><div class="line">| Oil can        |</div><div class="line">| Safe           |</div><div class="line">| Sling          |</div><div class="line">| TNT (1 stick)  |</div><div class="line">| TNT (5 sticks) |</div><div class="line">+<span class="comment">----------------+</span></div><div class="line">14 rows in <span class="keyword">set</span> (<span class="number">0.05</span> sec)</div></pre></td></tr></table></figure>
-<p>上述<code>select</code>语句返回products表中prod_name这一列的所有行，且没有经过排序（也就是说重复上述语句输出的结果顺序可能不一致，要知道没有经过排序而考察顺序是毫无意义的，只要行数一致就是正常的）。</p>
-<p>　　注意，SQL关键字不区分大小写。在处理SQL语句时其中的空格都将被忽略，即SQL语句可以在一行给出也可以进行分行（分行会使语句更容易阅读和调试）。多条语句间必须使用<code>;</code>加以分割，在多数的DBMS中，单条语句后<code>;</code>可加可不加，但是如果使用的是mysql命令行实用程序，必须加上<code>;</code>来结束SQL语句。</p>
-<h4 id="1-2-检索多个列"><a href="#1-2-检索多个列" class="headerlink" title="1.2 检索多个列"></a>1.2 检索多个列</h4><p>　　如果想要从一张表上检索多个列，也采用与上述相同的<code>select</code>语句，但<code>select</code>关键字后需要给出多个列名且列名之间用逗号分隔。比如，想要从产品表（products）中检索产品号（prod_id），产品名（prod_name），产品价格（prod_price）信息。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, prod_name, prod_price       #输入</div><div class="line"><span class="keyword">from</span> products;</div><div class="line">+<span class="comment">---------+----------------+------------+   #输出</span></div><div class="line">| prod_id | prod_name      | prod_price |</div><div class="line">+<span class="comment">---------+----------------+------------+</span></div><div class="line">| ANV01   | .5 ton anvil   |       5.99 |</div><div class="line">| ANV02   | 1 ton anvil    |       9.99 |</div><div class="line">| ANV03   | 2 ton anvil    |      14.99 |</div><div class="line">| DTNTR   | Detonator      |      13.00 |</div><div class="line">| FB      | Bird seed      |      10.00 |</div><div class="line">| FC      | Carrots        |       2.50 |</div><div class="line">| FU1     | Fuses          |       3.42 |</div><div class="line">| JP1000  | JetPack 1000   |      35.00 |</div><div class="line">| JP2000  | JetPack 2000   |      55.00 |</div><div class="line">| OL1     | Oil can        |       8.99 |</div><div class="line">| SAFE    | Safe           |      50.00 |</div><div class="line">| SLING   | Sling          |       4.49 |</div><div class="line">| TNT1    | TNT (1 stick)  |       2.50 |</div><div class="line">| TNT2    | TNT (5 sticks) |      10.00 |</div><div class="line">+<span class="comment">---------+----------------+------------+</span></div><div class="line">14 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，SQL语句一般返回原始、无格式的数据。数据展现的格式是一个表示问题，而不应包括在数据的检索中。</p>
-<h4 id="1-3-检索所有列"><a href="#1-3-检索所有列" class="headerlink" title="1.3 检索所有列"></a>1.3 检索所有列</h4><p>　　要检索出一张表的所有列，同样使用上述相同的<code>select</code>语句，但不需要逐个列出表中的所有列。这可以采用<code>*</code>通配符来实现，事实上<code>*</code>通配符的好处在于你或许不知道所有列的列名，而通过它能检索出未知列。其语句如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from products;    #输入</div></pre></td></tr></table></figure>
-<h4 id="如何实现检索不同的行？"><a href="#如何实现检索不同的行？" class="headerlink" title="如何实现检索不同的行？"></a>如何实现检索不同的行？</h4><p>　　如上述，<code>select</code>语句的结果返回被检索列的所有行，比如检索产品表（products）中供应商ID（vend_id）这一列，返回结果：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">select vend_id from products;   #输入</div><div class="line">+<span class="comment">---------+                     #输出 </span></div><div class="line">| vend_id |</div><div class="line">+<span class="comment">---------+</span></div><div class="line">|    1001 |</div><div class="line">|    1001 |</div><div class="line">|    1001 |</div><div class="line">|    1002 |</div><div class="line">|    1002 |</div><div class="line">|    1003 |</div><div class="line">|    1003 |</div><div class="line">|    1003 |</div><div class="line">|    1003 |</div><div class="line">|    1003 |</div><div class="line">|    1003 |</div><div class="line">|    1003 |</div><div class="line">|    1005 |</div><div class="line">|    1005 |</div><div class="line">+<span class="comment">---------+</span></div><div class="line">14 rows in <span class="keyword">set</span> (<span class="number">0.02</span> sec)</div></pre></td></tr></table></figure>
-<p>虽然结果显示返回14行（因为products表中列出了14个产品），但是容易看到实际表中只有4个供应商，想要只返回列中的不同值需要用到<code>distinct</code>关键字，它指示Mysql只返回不同值。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> vend_id     #输入</div><div class="line"><span class="keyword">from</span> products;</div><div class="line">+<span class="comment">---------+                 #输出 </span></div><div class="line">| vend_id |</div><div class="line">+<span class="comment">---------+</span></div><div class="line">|    1001 |</div><div class="line">|    1002 |</div><div class="line">|    1003 |</div><div class="line">|    1005 |</div><div class="line">+<span class="comment">---------+</span></div><div class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.05</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，<code>distinct</code>关键字应用于给出的所有列儿不仅仅只是前置它的列。</p>
-<h4 id="如何限制输出？"><a href="#如何限制输出？" class="headerlink" title="如何限制输出？"></a>如何限制输出？</h4><p>　　或许在有些情况下，你只希望查看某一列的前几行，在<code>select</code>语句中家加入<code>limit</code>子句可以实现这一任务。下面给出两个例子：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name <span class="keyword">from</span> products  #输入</div><div class="line"><span class="keyword">limit</span> <span class="number">5</span>;</div><div class="line">+<span class="comment">--------------+                #输出 </span></div><div class="line">| prod_name    |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">| .5 ton anvil |</div><div class="line">| 1 ton anvil  |</div><div class="line">| 2 ton anvil  |</div><div class="line">| Detonator    |</div><div class="line">| Bird seed    |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">5 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>上述语句中，<code>limit 5</code>指示Mysql返回前5行。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_name <span class="keyword">from</span> products  #输入</div><div class="line"><span class="keyword">limit</span> <span class="number">5</span>, <span class="number">5</span>;</div><div class="line">+<span class="comment">--------------+                #输出</span></div><div class="line">| prod_name    |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">| Carrots      |</div><div class="line">| Fuses        |</div><div class="line">| JetPack 1000 |</div><div class="line">| JetPack 2000 |</div><div class="line">| Oil can      |</div><div class="line">+<span class="comment">--------------+</span></div><div class="line">5 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>上述语句可以得到下一个5行，<code>limit 5, 5</code>指示Mysql返回从行5开始的5行，其中第一个数表示开始位置，第二个数表示要检索的行数。注意此处的第一个参数为行的索引号而不是真实的行序号，实际上行的索引号比行序号要小1，即第1行为行0而不是行1。且要注意带一个值的<code>limit</code>总是从第一行开始，给出的数为返回的行数；而带两个值的<code>limit</code>是从第一个值的位置开始返回行，返回行数为第二个值。<code>limit</code>语句还有一种替代语法，例如<code>limit 5 offset 2</code>，它等同于<code>limit 2, 5</code>。</p>
-<h2 id="2-排序检索数据"><a href="#2-排序检索数据" class="headerlink" title="2. 排序检索数据"></a>2. 排序检索数据</h2><p>　　在前一部分的数据检索中使用的<code>select</code>语句输出中可以看到，返回结果是没有特定顺序的。实际上，以此方式检索出的数据并非以纯粹的随机顺序显示。如果不进行排序，数据一般讲以它在底层表中出现的顺序显示，这可能是数据最开始添加到表中的顺序。但是，如果数据后来进行过更新或者删除，则此顺序会受到Mysql重用回收存储空间的影响，也就是说在没有明确控制顺序的情况下此输出结果的顺序是没有参考价值的。</p>
+        <p>　　本章节介绍视图和存储过程以及它们的使用方法，适用于Mysql 5及以后的版本。视图是虚拟的表，它只包含使用时动态检索数据的查询（即视图包含的是一个SQL查询而非数据）。视图提供了一种Mysql的<code>select</code>语句层次的封装，可用来简化数据处理以及重新格式化基础数据或保护基础数据。存储过程，简单来说就是为了以后使用而保存一条或多条Mysql语句的集合，可将其视为批文件（其作用不仅限于此）。<br><a id="more"></a></p>
+<h2 id="1-视图"><a href="#1-视图" class="headerlink" title="1. 视图"></a>1. 视图</h2><p>　　视图是一个虚拟的表，它不包含实际数据而是一个SQL查询。其应用主要在于重用SQL语句，简化复杂SQL操作以及更改数据格式和表示的时候。在创建视图之后，可以用与表基本相同的方式利用它们（检索、过滤、排序、联结等）。</p>
+<p>　　视图的创建和使用有一些常见的规则和限制。首先视图必须唯一命名（不能喝别的视图及表重名）；对于可创建的视图数目没有限制；视图可以嵌套，即可以利用从其他视图中检索数据的查询来构造一个视图；<code>order by</code>语句也可用于视图中（但如果该视图中<code>select</code>语句也含有<code>order by</code>子句则该视图中的<code>order by</code>将被覆盖）；视图可以和表一起使用；视图不能索引。</p>
+<p>　　关于视图创建：</p>
 <ul>
-<li><strong>子句</strong>（clause）： 一个子句通常由一个关键字和所提供的数据组成。一条完整的SQL语句可包含子句，有些子句是必须的（比如<code>select</code>语句中的<code>from</code>子句，通过它确定需要提取列所在的表），而有些子句是可选的。</li>
+<li>视图用<code>create view</code>语句来创建；</li>
+<li>使用<code>show create view view_name;</code>来查看创建视图的语句；</li>
+<li>用<code>drop view view_name;</code>来删除视图；</li>
+<li>更新视图时可以先用<code>drop</code>再<code>create</code>，也可以直接用<code>create</code>或者<code>replace</code>；</li>
 </ul>
-<h4 id="2-1-排序数据"><a href="#2-1-排序数据" class="headerlink" title="2.1 排序数据"></a>2.1 排序数据</h4><p>　　为了对<code>select</code>语句检索出的数据进行排序，可以使用<code>order by</code>子句确定一个或多个列名，并据此对输出进行排序。注意，通常<code>order by</code>子句中所使用的列是<code>select</code>语句中选择的列，但也可以不是（即使用其他列对<code>select</code>语句中的列进行排序也是可以的）。下面是数据排序的一个例子：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, prod_price, prod_name          #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_price, prod_name</div><div class="line">+<span class="comment">---------+------------+----------------+      #输出</span></div><div class="line">| prod_id | prod_price | prod_name      |</div><div class="line">+<span class="comment">---------+------------+----------------+</span></div><div class="line">| FC      |       <span class="number">2.50</span> | Carrots        |</div><div class="line">| TNT1    |       <span class="number">2.50</span> | TNT (<span class="number">1</span> stick)  |</div><div class="line">| FU1     |       <span class="number">3.42</span> | Fuses          |</div><div class="line">| SLING   |       <span class="number">4.49</span> | Sling          |</div><div class="line">| ANV01   |       <span class="number">5.99</span> | <span class="number">.5</span> ton anvil   |</div><div class="line">| OL1     |       <span class="number">8.99</span> | Oil can        |</div><div class="line">| ANV02   |       <span class="number">9.99</span> | <span class="number">1</span> ton anvil    |</div><div class="line">| FB      |      <span class="number">10.00</span> | Bird <span class="keyword">seed</span>      |</div><div class="line">| TNT2    |      <span class="number">10.00</span> | TNT (<span class="number">5</span> sticks) |</div><div class="line">| DTNTR   |      <span class="number">13.00</span> | Detonator      |</div><div class="line">| ANV03   |      <span class="number">14.99</span> | <span class="number">2</span> ton anvil    |</div><div class="line">| JP1000  |      <span class="number">35.00</span> | JetPack <span class="number">1000</span>   |</div><div class="line">| <span class="keyword">SAFE</span>    |      <span class="number">50.00</span> | <span class="keyword">Safe</span>           |</div><div class="line">| JP2000  |      <span class="number">55.00</span> | JetPack <span class="number">2000</span>   |</div><div class="line">+<span class="comment">---------+------------+----------------+</span></div><div class="line"><span class="number">14</span> <span class="keyword">rows</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>此例是检索产品表中的产品ID，产品价格和产品名，并对输出结果按照产品价格和产品名进行排序（先按价格排序，再按名称排序）。注意，在按照多个列进行排序时，排序完全按照所规定的顺序进行（在本例中如果多个行具有相同的价格则咱其名称进行再排序）。</p>
-<h4 id="2-2-指定排序的方向"><a href="#2-2-指定排序的方向" class="headerlink" title="2.2 指定排序的方向"></a>2.2 指定排序的方向</h4><p>　　数据排序不限于升序排序（这是默认的排序顺序），还可以通过在<code>order by</code>子句中指定<code>desc</code>关键字对输出结果进行降序排序。如下例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> prod_id, prod_price, prod_name          #输入</div><div class="line"><span class="keyword">from</span> products</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> prod_price <span class="keyword">desc</span>;</div><div class="line">+<span class="comment">---------+------------+----------------+      #输出</span></div><div class="line">| prod_id | prod_price | prod_name      |</div><div class="line">+<span class="comment">---------+------------+----------------+</span></div><div class="line">| JP2000  |      55.00 | JetPack 2000   |</div><div class="line">| SAFE    |      50.00 | Safe           |</div><div class="line">| JP1000  |      35.00 | JetPack 1000   |</div><div class="line">| ANV03   |      14.99 | 2 ton anvil    |</div><div class="line">| DTNTR   |      13.00 | Detonator      |</div><div class="line">| FB      |      10.00 | Bird seed      |</div><div class="line">| TNT2    |      10.00 | TNT (5 sticks) |</div><div class="line">| ANV02   |       9.99 | 1 ton anvil    |</div><div class="line">| OL1     |       8.99 | Oil can        |</div><div class="line">| ANV01   |       5.99 | .5 ton anvil   |</div><div class="line">| SLING   |       4.49 | Sling          |</div><div class="line">| FU1     |       3.42 | Fuses          |</div><div class="line">| FC      |       2.50 | Carrots        |</div><div class="line">| TNT1    |       2.50 | TNT (1 stick)  |</div><div class="line">+<span class="comment">---------+------------+----------------+</span></div><div class="line">14 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</div></pre></td></tr></table></figure>
-<p>注意，<code>desc</code>关键字只应用到直接位于其前面的列名，位于其后的列名仍然按默认的升序。如果想在多个列上进行降序排序，需要对<code>order by</code>后的每个列名指定<code>desc</code>关键字。与<code>desc</code>关键字相反的是<code>asc</code>关键字，但升序是默认的排序方式，所以无需特别指定。</p>
-<p>　　其次，要特别注意各个子句出现的次序（比如<code>order by</code>子句出现在<code>from</code>子句之后，而<code>limit</code>子句出现在<code>order by</code>子句之后），子句次序混乱将会报错。</p>
-<h4 id="如何检索一列中最高或者最底的值？"><a href="#如何检索一列中最高或者最底的值？" class="headerlink" title="如何检索一列中最高或者最底的值？"></a>如何检索一列中最高或者最底的值？</h4><p>　　到目前为止<code>order by</code>以及<code>limit</code>子句可以帮助实现这一检索，have a try!</p>
+<h3 id="1-1-利用视图简化复杂的联结"><a href="#1-1-利用视图简化复杂的联结" class="headerlink" title="1.1 利用视图简化复杂的联结"></a>1.1 利用视图简化复杂的联结</h3><p>　　视图最常见的应用之一是隐藏复杂的SQL，这通常都会涉及联结。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> productcustomers <span class="keyword">as</span>                                      #输入</div><div class="line"><span class="keyword">select</span> cust_name, cust_contact, prod_id</div><div class="line"><span class="keyword">from</span> customers, orders, orderitems</div><div class="line"><span class="keyword">where</span> customers.cust_id = orders.cust_id</div><div class="line"><span class="keyword">and</span> orderitems.order_num = orders.order_num;</div></pre></td></tr></table></figure>
+<p>该语句创建了一个名为productcustomers的视图，它联结三个表，以返回已订购了任意产品的所有客户的列表。如果执行<code>select * from productcustomers;</code>,将列出订购了任意产品的客户（添加<code>where</code>子句可以从视图中检索特定数据，Mysql在处理查询时将指定的<code>where</code>子句添加到视图查询中已有的<code>where</code>子句中）。</p>
+<p>　　可以看出，视图极大的简化了复杂SQL语句的使用。利用视图，可一次性编写基础的SQL，然后根据需多次使用。</p>
+<h3 id="1-2-用视图重新格式化检索出的数据"><a href="#1-2-用视图重新格式化检索出的数据" class="headerlink" title="1.2 用视图重新格式化检索出的数据"></a>1.2 用视图重新格式化检索出的数据</h3><p>　　视图的另一常见用途是重新格式化检索出的数据。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> vendorlocations <span class="keyword">as</span>                                       #输入</div><div class="line"><span class="keyword">select</span> <span class="keyword">concat</span>(<span class="keyword">rtrim</span>(vend_name), <span class="string">'('</span>,<span class="keyword">rtrim</span>(vend_country),<span class="string">')'</span>)</div><div class="line">       <span class="keyword">as</span> vend_title</div><div class="line"><span class="keyword">from</span> vendors</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> vend_name;</div></pre></td></tr></table></figure>
+<p>上述SQL语句我们在前面的章节中使用过，它将供应商名及供应商地址两个字段通过函数连接起来组成一个计算字段，并赋予了一定的格式。假如经常需要这个格式的结果，不必在每次需要时执行联结，可以创建一个视图，每次需要时使用它即可。</p>
+<h3 id="1-3-更新视图"><a href="#1-3-更新视图" class="headerlink" title="1.3 更新视图"></a>1.3 更新视图</h3><p>　　迄今为止，所有视图都是和<code>select</code>语句使用的。通常，视图也是可更新的（即，可以对它们使用<code>insert</code>、<code>update</code>和<code>delete</code>），更新一个视图将更新其基表，如果对视图增加或删除行，实际是对其基表增加或删除行。但是，并非所有视图都是可更新的，如果Mysql不能正确地确定被更新的基数据，则不允许更新（包括插入和删除）。即，如果视图定义中有分组、联结、子查询、聚集函数、并、<code>distinct</code>关键字、导出列，则不能进行视图的更新。</p>
+<p>　　看似更新视图有严重的限制，但实际上不是，因为视图主要用于数据检索（而不用于更新）。</p>
+<h2 id="2-存储过程"><a href="#2-存储过程" class="headerlink" title="2. 存储过程"></a>2. 存储过程</h2><p>　　目前为止，涉及到的大多数SQL语句都是针对一个或多个表的单条语句。而并非所有操作都这么简单，经常会有一个完整的操作需要多条语句才能完成，甚至语句执行的具体次序也不是固定的。那么，怎样编写对应的代码？可以单独编写每条语句，并根据结果有条件的执行另外的语句（在每次需要这个处理时都必须做这些工作）。也可以创建存储过程。存储过程简单来说，就是为以后的使用而保存的一条或多条Mysql语句的集合（可将其视为批文件，虽然它们的作用不仅限于批处理）。有许多理由使用存储过程：</p>
+<ul>
+<li>通过把处理封装在容易使用的单元中，简化复杂的操作；</li>
+<li>由于不要求反复建立一系列处理步骤，这保证了数据的完整性（防止错误）；</li>
+<li>提高性能，使用存储过程要比使用单独的SQL语句要快；</li>
+<li>存在一些只能用在单个请求中的Mysql元素和特性，存储过程可以使用它们来编写功能更强更灵活的代码；</li>
+</ul>
+<p>注意，Mysql将编写存储过程和执行存储过程的安全和访问区分开来。即，即使不能编写自己的存储过程，也仍然可以在适当的时候执行别的存储过程。</p>
+<h3 id="2-1-执行存储过程"><a href="#2-1-执行存储过程" class="headerlink" title="2.1 执行存储过程"></a>2.1 执行存储过程</h3><p>　　Mysql称存储过程的执行为调用，因此执行存储过程的语句为<code>call</code>。<code>call</code>接受存储过程的名字以及需要传递给它的任意参数。如下例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">call</span> productpricing(@pricelow,                                       #输入</div><div class="line">                    @pricehigh,</div><div class="line">                    @priceaverage);</div></pre></td></tr></table></figure>
+<p>上例执行名为productpricing的存储过程，它计算并返回产品的最低、最高和平均价格。注意，存储过程可以显示结果，也可以不显示结果。</p>
+<h3 id="2-2-创建存储过程"><a href="#2-2-创建存储过程" class="headerlink" title="2.2 创建存储过程"></a>2.2 创建存储过程</h3><p>　　首先来看一个例子（返回产品平均价格的存储过程）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> productpricing()                                    #输入</div><div class="line"><span class="keyword">begin</span></div><div class="line">   <span class="keyword">select</span> <span class="keyword">avg</span>(prod_price) <span class="keyword">as</span> priceaverage</div><div class="line">   <span class="keyword">from</span> products;</div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<p>此存储过程名为productpricing，用<code>create procedure productpricing()</code>语句定义。如果存储过程接受参数，它们将在<code>()</code>中列举出来。此存储过程没有参数，但后跟的<code>()</code>仍然需要。<code>begin</code>和<code>end</code>语句用来限定存储过程体，过程体本身仅是一个简单的<code>select</code>语句。在Mysql处理这段代码时，它创建一个新的存储过程productpricing，没有返回数据，因为这段代码并未调用存储过程，这里只是为以后的使用创建它。</p>
+<p>　　注意，默认的Mysql语句分隔符为<code>;</code>，而Mysql命令行实用程序也使用<code>;</code>作为语句分隔符。如果命令行实用程序要解释存储过程自身内的<code>;</code>字符，则它们最终不会成为存储过程的成分，这会使存储过程中的SQL语句出现句法错误。解决办法是临时更改命令行实用程序的语句分隔符，如<code>delimiter //</code>。</p>
+<p>　　存储过程再创建以后，被保存在服务器上以供实用，直至被删除。删除命令从服务器中删除存储过程，如<code>drop procedure productpricing;</code>。</p>
+<h3 id="2-3-使用参数"><a href="#2-3-使用参数" class="headerlink" title="2.3 使用参数"></a>2.3 使用参数</h3><p>　　productpricing只是一个简单的存储过程，它简单地显示<code>select</code>语句的结果。一般，存储过程并不显示结果，而是把结果返回给你指定的变量。</p>
+<ul>
+<li>变量（variable）：内存中一个特定的位置，用来临时存储数据。</li>
+</ul>
+<p>如下是productpricing的修改版本（如果不先删除此存储过程，则不能再次创建它）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> productpricing(                                   #输入</div><div class="line">   <span class="keyword">out</span> pl <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>),</div><div class="line">   <span class="keyword">out</span> ph <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>),</div><div class="line">   <span class="keyword">out</span> pa <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>)</div><div class="line">)</div><div class="line"><span class="keyword">begin</span></div><div class="line">   <span class="keyword">select</span> <span class="keyword">min</span>(prod_price)</div><div class="line">   <span class="keyword">into</span> pl</div><div class="line">   <span class="keyword">from</span> products;</div><div class="line">   <span class="keyword">select</span> <span class="keyword">max</span>(prod_price)</div><div class="line">   <span class="keyword">into</span> ph</div><div class="line">   <span class="keyword">from</span> products;</div><div class="line">   <span class="keyword">select</span> <span class="keyword">avg</span>(prod_price)</div><div class="line">   <span class="keyword">into</span> pa</div><div class="line">   <span class="keyword">from</span> products;</div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<p>此存储过程接受三个参数：pl存储产品最低价格，ph存储产品最高价格，pa存储产品平均价格。每个参数必须具有指定的类型，这里使用十进制。关键字<code>out</code>指出相应的参数用来从存储过程传出一个值（返回给调用者）。Mysql支持<code>in</code>（传递给存储过程）、<code>out</code>（从存储过程传出）和<code>inout</code>（对存储过程传入和传出）类型的参数。存储过程的代码位于<code>begin</code>和<code>end</code>语句内，通过<code>into</code>关键字将检索值保存到相应的变量。</p>
+<p>　　为调用此存储过程，必须指定三个变量名，如下所示：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">call</span> productpricing(@pricelow,                                       #输入</div><div class="line">                    @pricehigh,</div><div class="line">                    @priceaverage);</div></pre></td></tr></table></figure>
+<p>由于此存储过程要求三个参数，因此必须正好传递三个参数。所以，这条<code>call</code>语句给出三个参数。它们是存储过程将保存结果的三个变量名。注意，Mysql变量都必须以<code>@</code>开始。在调用时，这条语句并不显示任何数据。它返回以后可以显示的变量。为了获得三个值，可以使用以下语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> @pricelow, @pricehigh, @priceaverage;</div></pre></td></tr></table></figure>
+<h3 id="2-4-建立智能存储过程"><a href="#2-4-建立智能存储过程" class="headerlink" title="2.4 建立智能存储过程"></a>2.4 建立智能存储过程</h3><p>　　前面使用的所有存储过程基本上都是封装Mysql简单的<code>select</code>语句。虽然它们全是有效的存储过程例子，但它们所能完成的工作也可以直接用其中被封装的语句来完成。只有在存储过程内包含业务规则和智能处理时，它们的威力才真正的显现出来。</p>
+<p>　　现在来考虑这样一个场景，你需要获得订单合计，且需要对合计增加营业税，不过只针对某些客户。那么，就需要做三件事：获得合计；把营业税有条件的添加到合计；返回合计。则，存储过程的完整工作如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- name: ordertotal</span></div><div class="line"><span class="comment">-- parameters: onumber = order number</span></div><div class="line"><span class="comment">--             taxable = 0 if not taxable, 1 if taxable</span></div><div class="line"><span class="comment">--             ototal  = order total variable</span></div><div class="line"></div><div class="line"><span class="keyword">create</span> <span class="keyword">procedure</span> ordertotal(</div><div class="line">   <span class="keyword">in</span> onumber <span class="built_in">int</span>,</div><div class="line">   <span class="keyword">in</span> taxable <span class="built_in">boolean</span>,</div><div class="line">   <span class="keyword">out</span> ototal <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>)</div><div class="line">)<span class="keyword">comment</span> <span class="string">'obtain order total, optionally adding tax'</span></div><div class="line"><span class="keyword">begin</span></div><div class="line"></div><div class="line">   <span class="comment">-- declare variable for total</span></div><div class="line">   <span class="keyword">declare</span> total <span class="built_in">decimal</span>(<span class="number">8</span>,<span class="number">2</span>);</div><div class="line">   <span class="comment">-- declare tax percentage</span></div><div class="line">   <span class="keyword">declare</span> taxrate <span class="built_in">int</span> <span class="keyword">default</span> <span class="number">6</span>;</div><div class="line"></div><div class="line">   <span class="comment">-- get the order total</span></div><div class="line">   <span class="keyword">select</span> <span class="keyword">sum</span>(item_price*quantity)</div><div class="line">   <span class="keyword">from</span> orderitems</div><div class="line">   <span class="keyword">where</span> order_num = onumber</div><div class="line">   <span class="keyword">into</span> total;</div><div class="line"></div><div class="line">   <span class="comment">-- is this taxable?</span></div><div class="line">   if taxable then</div><div class="line">      <span class="comment">-- yes, so add taxrate to the total</span></div><div class="line">      <span class="keyword">select</span> total+(total/<span class="number">100</span>*taxrate) <span class="keyword">into</span> total;</div><div class="line">   <span class="keyword">end</span> <span class="keyword">if</span>;</div><div class="line">   <span class="comment">-- and finally, save to out variable</span></div><div class="line">   <span class="keyword">select</span> total <span class="keyword">into</span> ototal;</div><div class="line"></div><div class="line"><span class="keyword">end</span>;</div></pre></td></tr></table></figure>
+<p>此存储过程增加了注释（前面放置<code>--</code>）。在存储过程复杂性增加时，这样做很有必要。参数<code>taxable</code>是一个布尔值（要增加税则为真，否则为假）。在存储过程体中，用<code>declare</code>语句定义了两个局部变量，<code>declare</code>要求指定变量名和数据类型，它也支持可选的默认值。注意，本例中的存储过程在<code>create procedure</code>语句中包含了一个<code>comment</code>值。它不是必须的，但如果给出，将在<code>show procedure status</code>的结果中显示。</p>
 
       
     </div>
@@ -527,8 +544,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/14/mysql-2/" rel="next" title="Mysql学习笔记（二）——连接服务器">
-                <i class="fa fa-chevron-left"></i> Mysql学习笔记（二）——连接服务器
+              <a href="/2017/11/24/mysql-10/" rel="next" title="Mysql学习笔记（十）——创建和操纵表">
+                <i class="fa fa-chevron-left"></i> Mysql学习笔记（十）——创建和操纵表
               </a>
             
           </div>
@@ -536,10 +553,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/16/mysql-4/" rel="prev" title="Mysql学习笔记（四）——数据过滤">
-                Mysql学习笔记（四）——数据过滤 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
