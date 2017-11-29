@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://prophetjeff.com/2017/11/28/mysql-12/</loc>
+    <lastmod>2017-11-29T09:11:07.036Z</lastmod>
+    <data>
+        <display>
+        <title>Mysql学习笔记（十二）——游标和触发器</title>
+        <pubTime>2017-11-28T09:10:48.000Z</pubTime>
+        
+        <tag>Mysql</tag>
+         
+         
+           
+             
+              <breadCrumb title="Mysql" url="http://prophetjeff.com/categories/Mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://prophetjeff.com/2017/11/27/mysql-11/</loc>
     <lastmod>2017-11-28T06:53:52.029Z</lastmod>
     <data>
